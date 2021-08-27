@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+
+
+{% block content %}
+    <div class="container card"style="width: 900px;" id="login">
+
+          <div class="pt-0">
+            <div class="text-center pt-0 mb-4">
+              <h2>Sign in</h2>
+            </div>
+            <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+                {% csrf_token %}
+                {{ form|  crispy }}
+                {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                {% endif %}
+              <div class="submit-section text-center">
+                <button type="submit" class="btn btn-primary btn-block submit-btn">Sign Up</button>
+              </div>
+              <div class="login-or">
+                <span class="or-line"></span>
+                <span class="span-or">or</span>
+              </div>
+              <a href="{% provider_login_url 'google' %}" class="btn btn-outline-primary btn-block">
+                <img src="{% static '/img/google.png'%}" class="img-fluid mr-1" alt="google"> Continue with Google </a>
+              <p class="policy-text">By clicking Register or Continue with Google, Facebook, or Apple, you agree to NookX's <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>. NookX may send you communications; you may change your preferences in your account settings. We'll never post without your permission. </p>
+              <div class="text-center member">Already a member? <a data-toggle="modal" href="#login" class="custom-modal-close">Sign In</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>  
+
+
+{% endblock content %}

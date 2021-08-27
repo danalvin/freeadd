@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+  {{property.title}} - Freeadd
+{% endblock title %}
+
+{% block content %}
+    <div class="content">
+        <div class="container">
+            <div class="row">
+            <div class="col-lg-5">
+                <div class="products-details">
+                <div class="products-info">
+                    <h2>{{ product.title }}</h2>
+                    <h4 class="text-primary">{{product.category}}</h4>
+                    <h4 class="products-name my-4">{{ product.Description }} </h4>
+                </div>
+                <div class="d-md-flex">
+                    <div class="price-details">
+                    <h3 class="price-detail d-flex align-items-center">KSH {{product.price}} <span class="pl-2">
+                        </span>
+                    </h3>
+                    </div>
+                </div>
+
+                </div>
+                <div class="faq-cards my-4 d-lg-block d-none">
+                <div class="faq-card">
+                    <div class="faq-card-body">
+                    <h4 class="faq-card-title mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapseFour">Product location</a>
+                    </h4>
+                    <div id="collapseFour" class="card-collapse collapse">
+                        <p>Product location</p>
+                        <p>County: {{ product.county }}</p>
+
+                            <p>{{ product.location }} general are area</p>
+                        </p>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="faq-card">
+                    <div class="faq-card-body">
+                    <h4 class="faq-card-title mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapseFive">Meet your sellers</a>
+                    </h4>
+                    <div id="collapseFive" class="card-collapse collapse">
+                        <p>Owned by {{ product.user.name }}</p>
+                        <button class="btn main-btn mb-3">Message {{ product.user.name }}</button>
+                            <p>{{ product.user.name }}'s Phone Number</p>
+                            <p>{{ product.user.phone }}</p>
+                        </p>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="products-detail-slider">
+                <div class="card">
+                    <div class="card-body">
+                    <div class="js-flickity">
+                    {% for img in product.image %}
+                        <div class="item">
+                        <a data-toggle="modal" href="#product-popup">
+                            <img src="{{ img.image.url }}" alt="" class="img-fluid">
+                        </a>
+                        </div>
+                    {% endfor %}
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-12 overflow-nav">
+                        <div class="owl-nav slide-nav-1 nav-control"></div>
+                    </div>
+                    <div class="col-md-12 prd-dtl">
+                        <span class="prod-wl prd-vis">
+                        <i class="far fa-heart"></i>
+                        </span>
+                    </div>
+                    </div>
+                </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock content %}

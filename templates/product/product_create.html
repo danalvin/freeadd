@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+
+{% block content %}
+      <div class="page-content">
+        <div class="container">
+          <div class="row">
+{% block menu %}
+            <div class="col-md-3">
+              <div class="profile-menu">
+                <ul class="profile-links">
+                  <li>
+                    <a href="#" class="active">Create product</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+{% endblock menu %}
+            <div class="col-md-9">
+              <div class="tab-content">
+                <div class="tab-pane show active" id="account">
+                  <h4 class="mb-3">Create Product</h4>
+                  <div class="row">
+                    <div class="col-md-12">
+                        <form enctype="multipart/form-data" class="form-horizontal" method="post" action="action="{% url 'products:create_new' %}"">
+                        {% csrf_token %}
+                            <div class="card-box card flex-fill">
+                            <div class="clearfix"></div>
+                                <div class="card-header">Product</div>
+                                <div class="card-body">
+                                    <div class="form-row">
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label>Product Name</label>
+                                                {{ form.title|add_class:"form-control" }}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label>Description</label>
+                                                {{ form.Description|add_class:"form-control" }}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label>category</label>
+                                                {{ form.category|add_class:"form-control" }}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label>County</label>
+                                                {{ form.county|add_class:"form-control" }}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label>Location</label>
+                                                {{ form.location|add_class:"form-control" }}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label>Price</label>
+                                                {{ form.price|add_class:"form-control" }}
+                                            </div>
+                                        </div>
+                                                <label>Product Images</label>
+
+                                            <input id="pro-image" type="file" name="pro-images" class="form-control" multiple>
+                                            <input id="images" type="text" name="images" class="form-control" style="display: none">
+                                            </br></br></br>
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label>Tags (Separated by commas) </label>
+                                                {{ form.tags|add_class:"form-control" }}
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-lg-4 col-md-6">
+                                            <button type="submit" class="btn btn-primary btn-block pass-btn">Update</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+{% endblock content %}

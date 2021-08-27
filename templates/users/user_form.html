@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+      <div class="page-content">
+        <div class="container">
+          <div class="row">
+{% block menu %}
+            <div class="col-md-3">
+              <div class="profile-menu">
+                <ul class="profile-links">
+                  <li>
+                    <a href="#" class="active">Settings</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+{% endblock menu %}
+            <div class="col-md-9">
+              <div class="tab-content">
+                <div class="tab-pane show active" id="account">
+                  <h4 class="mb-3">Edit Profile</h4>
+                  <div class="row">
+                    <div class="col-md-12">
+                        <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{% url 'users:update' %}">
+                        {% csrf_token %}
+                            <div class="card-box card flex-fill">
+                            <div class="clearfix"></div>
+                                <div class="card-header">Password</div>
+                                <div class="card-body">
+                                    <div class="form-row">
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label>Full name</label>
+                                                <input type="text" class="form-control" name="name" placeholder="Full Name" value="{{form.instance.name |default_if_none:''}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label>Profile image</label>
+                                                <input id="profile-image" type="file" name="picture" class="upload">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label>Email Address</label>
+                                                <input type="text" class="form-control" name="email" placeholder="Email" value="{{form.instance.email |default_if_none:''}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label>Phone Number</label>
+                                                <input type="text" class="form-control" name="phone" placeholder="phone" value="{{form.instance.phone |default_if_none:''}}" >
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label>Website</label>
+                                                <input type="text" class="form-control"name="website" placeholder="themeforest.net" value="{{form.instance.website |default_if_none:''}}" >
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-4">
+                                        <div class="form-group">
+                                                <label>About</label>
+                                            <textarea class="form-control" rows="5"  name="bio" placeholder="About Me" style="margin-bottom:20px;">{{form.instance.bio |default_if_none:''}}></textarea>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-lg-4 col-md-6">
+                                            <button type="submit" class="btn btn-primary btn-block pass-btn">Update</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock content %}
+
+
+

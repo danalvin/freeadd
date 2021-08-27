@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+      <div class="page-content">
+        <div class="container">
+          <div class="row">
+{% block menu %}
+            <div class="col-md-3">
+              <div class="profile-menu">
+                <ul class="profile-links">
+                  <li>
+                    <a href="{% url 'users:update' %}" >Settings</a>
+                  </li>
+                  <li>
+                    <a href="#"class="active">Profile</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+{% endblock menu %}
+
+            <div class="col-md-9">
+              <div class="prof-box">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h5>Your Public Profile</h5>
+                    <p class="mb-3">Everything on this page can be seen by anyone</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card-box card flex-fill">
+                    <div class="card-body">
+                      <form action="#" class="pro-form">
+                        <div class="form-group row">
+                          <label class="col-form-label col-md-3">Profile Picture</label>
+                          <div class="col-md-9">
+                            <img src="{{ request.user.picture.url }}" class="img-fluid" alt="profile"style="height: 100px;">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-form-label col-md-3">Email</label>
+                          <div class="col-md-6">
+                            <h5>
+                              <b>{{ request.user.email }}</b>
+                            </h5>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-form-label col-md-3">Phone Number  </label>
+                            <h5>
+                              <b>{{ request.user.phone }}</b>
+                            </h5>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+{% endblock content %}

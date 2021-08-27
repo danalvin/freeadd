@@ -1,0 +1,24 @@
+
+
+<div class="col-12">
+    <div class="blog-pagination">
+    <nav>
+        <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="page-item first-page active">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" >
+            <i class="fa fa-arrow-left"></i>
+            </a>
+        </li>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <li class="page-item last-page">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+            <i class="fa fa-arrow-right"></i>
+            </a>
+        </li>
+        {% endif %}
+        </ul>
+    </nav>
+    </div>
+</div>

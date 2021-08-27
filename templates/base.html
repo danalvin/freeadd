@@ -1,0 +1,180 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>NookX</title>
+    {% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{% static '/plugins/fontawesome/css/fontawesome.min.css'%}">
+    <link rel="stylesheet" href="{% static '/plugins/fontawesome/css/all.min.css'%}">
+    <link rel="stylesheet" href="{% static '/css/owl.carousel.min.css'%}">
+    <link rel="stylesheet" href="{% static '/css/style.css'%}">
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    {% endblock css %}
+        {% block head %}{% endblock head %}
+    <!--[if lt IE 9]>
+									<script src="assets/js/html5shiv.min.js"></script>
+									<script src="assets/js/respond.min.js"></script>
+									<![endif]-->
+  </head>
+  <body>
+      {% block body %}
+    <div class="main-wrapper">
+      <header class="header">
+        <div class="min-header">
+        {% comment %} topnav start {% endcomment %}
+          <div class="header-container-top">
+            <div class="container">
+              <nav class="navbar navbar-expand-lg header-nav">
+                <div class="navbar-header">
+                  <a id="mobile_btn" href="javascript:void(0);">
+                    <span class="bar-icon">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </span>
+                  </a>
+                  <a href="{% url 'products:home' %}" class="navbar-brand logo">
+                    <img src="  /img/logo.png'%}" class="img-fluid" alt="Logo">
+                  </a>
+                </div>
+                <div class="main-menu-wrapper">
+                  <div class="menu-header">
+                    <a href="{% url 'products:home' %}" class="menu-logo">
+                      <img src="assets/img/logo.png" class="img-fluid" alt="Logo">
+                    </a>
+                    <a id="menu_close" class="menu-close" href="javascript:void(0);">
+                      <i class="fas fa-times"></i>
+                    </a>
+                  </div>
+                </div>
+                  <ul class="main-nav">
+                    <li>
+                      <a href="{% url 'products:list' %}">Browse Products</a>
+                    </li>
+               
+
+                {% comment %} authenticated logic {% endcomment %}
+                {% if request.user.is_authenticated %}
+                    <li>
+                      <a href="{% url 'products:create_new' %}">Create a product</a>
+                    </li>
+                  </ul>
+                <ul class="signup-col">
+                  <li class="nav-item dropdown has-arrow user-nav">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">
+                      <span class="circle-user">
+                        <i class="far fa-user"></i>
+                      </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a href="{% url 'products:dashboard' %}" class="dropdown-item"> My dashboard </a>
+                      <a href="{% url  'users:update' %}" class="dropdown-item"> Edit profile </a>
+                      <a href="shop-manager.html" class="dropdown-item d-lg-none"> Sell a product </a>
+                      <a href="{% url 'account_logout' %}" class="dropdown-item"> Logout </a>
+                    </div>
+                  </li>
+
+                </ul>
+                {% else %}
+                <ul class="signup-col">
+                  <li>
+                    <a class="btn btn-signup" href="/accounts/login">
+                      <i class="far fa-user"></i> Sign in </a>
+                  </li>
+                </ul>
+                {% endif %}
+              </nav>
+            </div>
+          </div>
+          {% comment %} topnav end {% endcomment %}
+          <div class="header-container-bottom">
+            <div class="container">
+              <div class="header-bottom">
+                <ul class="main-nav bottom-menu-slider owl-carousel">
+                {% for products in products %}
+                  <li class="item">
+                    <a href="#"> {{ products.category }}</a>
+                  </li>
+                {% endfor %}
+
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+{% block content %}
+
+{% endblock content %}
+      <footer class="footer">
+        <div class="container">
+          <div class="footer-top">
+            <div class="row">
+              <div class="col-sm-12 col-lg-3 col-md-6">
+                <div class="footer-widget footer-contact">
+                  <div class="footer-logo">
+                    <img src="assets/img/footer-logo.png" alt="logo">
+                  </div>
+                  <div class="footer-about-content">
+                    <p>Freeadd is a global online marketplace, where people come together to make, sell, buy and collect unique items.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="container">
+            <div class="copyright">
+              <div class="row">
+                <div class="col-md-4 col-lg-5">
+                  <ul class="language-links">
+                    <li>
+                      <a href="#">Kenya</a>
+                    </li>
+                    <li>
+                      <a href="#">English</a>
+                    </li>
+                    <li>
+                      <a href="#">/= (KSH)</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-2 col-lg-2">
+                  <div class="copyright-text">
+                    <p class="mb-0">&copy; 2021 Freeadd</p>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-5">
+                  <ul class="term-links">
+                    <li>
+                      <a href="#">Terms of Use</a>
+                    </li>
+                    <li>
+                      <a href="#">Privacy</a>
+                    </li>
+                    <li>
+                      <a href="#">Interest-based ads</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script src="{% static '/js/jquery-3.5.1.min.js'%}"></script>
+    <script src="{% static '/js/bootstrap.bundle.min.js'%}"></script>
+    <script src="{% static '/js/slick.js'%}"></script>
+    <script src="{% static '/js/owl.carousel.min.js'%}"></script>
+    <script src="{% static '/js/script.js'%}"></script>
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+
+    {% endblock body %}
+  </body>
+</html>
