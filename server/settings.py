@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'django.forms',
     'widget_tweaks',
     'crispy_forms',
+    'staticfiles',
 ]
 
 SITE_ID = 1
