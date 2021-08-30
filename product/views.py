@@ -80,7 +80,7 @@ class MyProductsListView(LoginRequiredMixin, ListView):
     """Basic ListView implementation to call the published articles list."""
 
     model = product
-    paginate_by = 10
+    paginate_by = 20
     context_object_name = "articles"
     template_name = "product/my-products.html"
 
