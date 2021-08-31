@@ -34,116 +34,13 @@
                 <div class="filter-card">
                   <h5 class="mb-3">All products</h5>
                   <ul class="category-list">
-                    <li>{{ products.category }}</li>
-                    <li>Craft Supplies & Tools</li>
-                    <li>Jewellery</li>
-                    <li>Art & Collectibles</li>
+                  {% for product in products %}
+                    <li>{{ product.category }}</li>
+                  {% endfor %}
+
                   </ul>
-                  <a href="#" class="anchor-btn">Show more</a>
                 </div>
-                <div class="filter-card">
-                  <h5 class="mb-3">All categories</h5>
-                  <div class="selection-filter">
-                    <label class="sort-selection">FREE delivery <input type="checkbox">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label class="sort-selection">On sale <input type="checkbox">
-                      <span class="checkmark"></span>
-                    </label>
-                  </div>
-                </div>
-                <div class="filter-card">
-                  <h5 class="mb-3">Ready to dispatch in</h5>
-                  <div class="selection-filter">
-                    <label class="sort-selection">1 business day <input type="checkbox">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label class="sort-selection">1–3 business days <input type="checkbox">
-                      <span class="checkmark"></span>
-                    </label>
-                  </div>
-                </div>
-                <div class="filter-card">
-                  <h5 class="mb-3">Price ($)</h5>
-                  <div class="selection-filter authentication">
-                    <label class="custom-radio mr-2">Any price <input type="radio" name="radio">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label class="custom-radio mr-2">Under US$ 25 <input type="radio" name="radio">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label class="custom-radio mr-2">US$ 25 to US$ 50 <input type="radio" name="radio">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label class="custom-radio mr-2">US$ 50 to US$ 100 <input type="radio" name="radio">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label class="custom-radio mr-2">Over US$ 100 <input type="radio" name="radio">
-                      <span class="checkmark"></span>
-                    </label>
-                  </div>
-                  <h5 class="mb-3">Price ($)</h5>
-                  <p class="price-range">$1800 - $7800</p>
-                  <p class="mb-0">Current Range: $6000</p>
-                  <div class="range-slider">
-                    <input type="text" class="js-range-slider" value="" />
-                  </div>
-                </div>
-                <div class="filter-card">
-                  <h5 class="mb-3">Shop location</h5>
-                  <div class="selection-filter authentication">
-                    <label class="custom-radio mr-2">Anywhere <input type="radio" name="radio">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label class="custom-radio mr-2">India <input type="radio" name="radio">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label class="custom-radio mr-2">Custom> <input type="radio" name="radio">
-                      <span class="checkmark"></span>
-                    </label>
-                    <input class="form-control" name="location" type="text" placeholder="Enter location">
-                  </div>
-                </div>
-                <div class="filter-card">
-                  <h5 class="mb-3">Item type</h5>
-                  <div class="selection-filter authentication">
-                    <label class="custom-radio mr-2">All items <input type="radio" name="radio">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label class="custom-radio mr-2">Handmade <input type="radio" name="radio">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label class="custom-radio mr-2">Vintage <input type="radio" name="radio">
-                      <span class="checkmark"></span>
-                    </label>
-                  </div>
-                </div>
-                <div class="filter-card">
-                  <h5 class="mb-3">Ordering options</h5>
-                  <div class="selection-filter authentication">
-                    <label class="custom-radio mr-2">Accepts NookX gift cards <input type="radio" name="radio">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label class="custom-radio mr-2">Can be gift-wrapped <input type="radio" name="radio">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label class="custom-radio mr-2">Customisable <input type="radio" name="radio">
-                      <span class="checkmark"></span>
-                    </label>
-                  </div>
-                </div>
-                <div class="filter-card">
-                  <h5 class="mb-3">Deliver to</h5>
-                  <div class="selection-filter">
-                    <select class="select">
-                      <option disabled selected>Location</option>
-                      <option class="sorting">India</option>
-                      <option class="sorting">UK</option>
-                      <option class="sorting">USA</option>
-                      <option class="sorting">France</option>
-                    </select>
-                  </div>
-                </div>
+
               </div>
             </div>
             <div class="col-lg-9">

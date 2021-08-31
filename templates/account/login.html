@@ -14,12 +14,28 @@
             </div>
             <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
                 {% csrf_token %}
-                {{ form|  crispy }}
+              <div class="form-row">
+
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="form-group">
+                        <label>Username</label>
+                        {{ form.login|add_class:"form-control" }}
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="form-group">
+                        <label>Password</label>
+                        {{ form.password|add_class:"form-control" }}
+                    </div>
+                </div>
                 {% if redirect_field_value %}
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                 {% endif %}
-              <div class="submit-section text-center">
-                <button type="submit" class="btn btn-primary btn-block submit-btn">Sign Up</button>
+                </br>
+                                        <div class="col-lg-4 col-md-6"style="padding-top: 30px;">
+                                            <button type="submit" class="btn btn-primary btn-block pass-btn">Login</button>
+                                        </div>
               </div>
               <div class="login-or">
                 <span class="or-line"></span>
@@ -27,8 +43,7 @@
               </div>
               <a href="{% provider_login_url 'google' %}" class="btn btn-outline-primary btn-block">
                 <img src="{% static '/img/google.png'%}" class="img-fluid mr-1" alt="google"> Continue with Google </a>
-              <p class="policy-text">By clicking Register or Continue with Google, Facebook, or Apple, you agree to NookX's <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>. NookX may send you communications; you may change your preferences in your account settings. We'll never post without your permission. </p>
-              <div class="text-center member">Already a member? <a data-toggle="modal" href="/accounts/signup" class="custom-modal-close">Sign In</a>
+              <div class="text-center member">Already a member? <a href="/accounts/signup">Sign In</a>
               </div>
             </form>
           </div>
