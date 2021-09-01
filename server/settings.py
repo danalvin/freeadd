@@ -34,6 +34,7 @@ SECRET_KEY = 'django-insecure-83z-_p7gu(2ce*hjs^or1g2&tso_(s-epv2wlpdu_qi(vf!ua9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+
 ALLOWED_HOSTS = ['217.61.61.214','127.0.0.1', 'freeadverts.co.ke']
 
 
@@ -193,7 +194,7 @@ PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.BCryptPasswordHasher",
 ]
 SITE_ID = 3
-LOGIN_REDIRECT_URL = 'list'
+LOGIN_REDIRECT_URL = '/products'
 SOCIALACCOUNT_QUERY_EMAIL = True
 ACCOUNT_LOGOUT_ON_GET= True
 ACCOUNT_UNIQUE_EMAIL = True
