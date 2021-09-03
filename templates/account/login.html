@@ -12,6 +12,14 @@
             <div class="text-center pt-0 mb-4">
               <h2>Sign in</h2>
             </div>
+            {% for message in messages %}
+    
+                <div class="alert alert-success">
+                    <a class="close" href="#" data-dismiss="alert">×</a>
+                      {{ message }}
+                </div>
+
+            {% endfor %}
             <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
                 {% csrf_token %}
               <div class="form-row">

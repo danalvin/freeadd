@@ -13,6 +13,14 @@
               <h2 class="">Create your account</h2>
               <h3 class="">Registration is easy.</h3>
             </div>
+            {% for message in messages %}
+    
+                <div class="alert alert-success">
+                    <a class="close" href="#" data-dismiss="alert">×</a>
+                      {{ message }}
+                </div>
+
+            {% endfor %}
               <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
                 {% csrf_token %}
                 <div class="form-row">

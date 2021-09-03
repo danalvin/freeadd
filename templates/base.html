@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>Freeadd</title>
+    <title>Freeadverts</title>
     {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css'%}">
     <link rel="stylesheet" href="{% static '/plugins/fontawesome/css/fontawesome.min.css'%}">
@@ -22,6 +22,11 @@
   <body>
       {% block body %}
     <div class="main-wrapper">
+            <ul id ="successMessage" class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %} style="color:green; font-size: 20px; list-style-type: none;">{{ message }}</li>
+            {% endfor %}
+        </ul>
       <header class="header">
         <div class="min-header">
         {% comment %} topnav start {% endcomment %}
@@ -113,7 +118,7 @@
                     <img src="assets/img/footer-logo.png" alt="logo">
                   </div>
                   <div class="footer-about-content">
-                    <p>Freeadd is a global online marketplace, where people come together to make, sell, buy and collect unique items.</p>
+                    <p>Freeadverts is a global online marketplace, where people come together to make, sell, buy and collect unique items.</p>
                   </div>
                 </div>
               </div>
@@ -139,7 +144,7 @@
                 </div>
                 <div class="col-md-2 col-lg-2">
                   <div class="copyright-text">
-                    <p class="mb-0">&copy; 2021 Freeadd</p>
+                    <p class="mb-0">&copy; 2021 Freeadverts</p>
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-5">
@@ -167,7 +172,12 @@
     <script src="{% static '/js/owl.carousel.min.js'%}"></script>
     <script src="{% static '/js/script.js'%}"></script>
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-
+    <script text="javascript">
+        setTimeout(fade_out, 3000);
+        function fade_out() {
+            $(".messages").fadeOut().empty();
+        }
+    </script>
     {% endblock body %}
   </body>
 </html>
