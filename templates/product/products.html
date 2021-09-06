@@ -46,7 +46,7 @@
             <div class="col-lg-9">
               <div class="row">
                 {% for product in products %}
-                <div class="col-lg-4 col-md-6 d-flex flex-wrap">
+                <div class="col-lg-4 col-md-6 col-6 d-flex flex-wrap">
                   <div class="products-card flex-fill">
                     <div class="products-img">
                       <a href="{% url 'products:listing' product.slug %}">
