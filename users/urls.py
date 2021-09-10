@@ -1,16 +1,12 @@
 from django.conf.urls import url
-from django.urls import re_path
+from django.urls import path, re_path
 
 from . import views
 
 app_name = "users"
 urlpatterns = [
-    # re_path(r"^$", view=views.UserListView.as_view(), name="list"),
-    # re_path(r"^~redirect/$", view=views.UserRedirectView.as_view(), name="redirect"),
+    path('login', views.LoginView.as_view(), name='login'),    
     re_path(r"^~update/$", view=views.UserUpdateView.as_view(), name="update"),
-    # re_path(
-    #     r"^(?P<username>[\w.@+-]+)/$",
-    #     view=views.UserDetailView.as_view(),
-    #     name="detail",
-    # ),
+    path('logout', views.LogoutView.as_view(), name='logout'),
+
 ]

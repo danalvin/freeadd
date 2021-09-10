@@ -5,7 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import re_path
 
-from .views import DetailProductView, DraftsListView, EditProductView, MyActiveProductsListView, MyClosedProductsListView, MyDraftProductsListView, MyProductsListView, ProductListView, CreateProductView, close_product, delete_product, post_image, delete_image, publish_product
+from .views import DetailProductView, DraftsListView, EditProductView, MyActiveProductsListView, MyClosedProductsListView, MyDraftProductsListView, MyProductsListView, ProductListView, CreateProductView, close_product, delete_product, post_image, delete_image, publish_product, ProductList1
 from .home import *
 app_name = "products"
 urlpatterns = [
@@ -42,5 +42,6 @@ urlpatterns = [
     path('my_closed_listings/$', MyClosedProductsListView, name= "my_closed_listings"),
     path('my-drafts/$', DraftsListView, name="drafts"),
     path('edit/(?P<pk>\d+)/$', EditProductView, name="edit_product"),
-    path('(?P<slug>[-\w]+)/$', DetailProductView, name="Product")
+    path('(?P<slug>[-\w]+)/$', DetailProductView, name="Product"),
+    path('category/<category_slug>/', ProductList1.as_view(), name = "product_list_by_category")
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_URL)

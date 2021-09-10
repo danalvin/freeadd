@@ -1,5 +1,5 @@
 from product.models import product
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import product, image, Category
 import operator
 import functools
@@ -16,6 +16,7 @@ from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from .forms import Productform
 from django.db.models import Q
+from django.utils import timezone
 
 
 # Create your views here.
@@ -25,58 +26,37 @@ class ProductListView(ListView):
     """Basic ListView implementation to call the published articles list."""
 
     model = product
-    paginate_by = 15
+    paginate_by = 16
     context_object_name = "products"
     template_name = "product/products.html"
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        county = self.request.GET.get("county", "ALL")
-        context["page_title"] = county + " LISTINGS"
+    def get_queryset(self):
+        return self.model.objects.all().order_by('-timestamp')
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["trendings"] = self.model.objects.filter(timestamp__month=timezone.now().month)[:3]
         return context
 
+class ProductList1(ListView):
+    template_name = 'product_list.html'
+    model = product
+    paginate_by = 8
+    context_object_name = 'products'
+
     def get_queryset(self, **kwargs):
-        queryset = product.objects.filter(status="OPEN")
-        queryset = self.query_category(queryset)
-        queryset = self.query_county(queryset)
-        queryset = self.query_title(queryset)
-        queryset = self.query_sort(queryset)
-        return queryset.prefetch_related(Prefetch("images", queryset=image.objects.order_by("index"), to_attr="image"))
+        self.category = get_object_or_404(Category, slug=self.kwargs['category_slug'])
+        products=product.objects.filter(category=self.category.id)
+        return product.objects.filter(category=self.category)
 
-    def query_category(self, queryset):
-        categories = self.request.GET.getlist("category", default=[cat.value for cat in Category])
-        q_list = []
+    def get_context_data(self, **kwargs):
+        context = super(ProductList1, self).get_context_data(**kwargs)
+        context['category'] = self.category
+        return context
 
-        for category in categories:
-            q_list.append(Q(category=category))
 
-        return queryset.filter(functools.reduce(operator.or_, q_list))
-
-    def query_county(self, queryset):
-        county = self.request.GET.get("county", "ALL")
-        if county == 'ALL':
-            return queryset
-        else:
-            return queryset.filter(county=county)
-
-    def query_title(self, queryset):
-        title = self.request.GET.get("title", "")
-
-        return queryset.filter(Q(title__contains=title) | Q(location__contains=title) | Q(tags__name=title)).distinct()
-
-    def query_sort(self, queryset):
-        sort = self.request.GET.get("sort", "timestamp")
-        if sort == "price_desc":
-            return queryset.order_by("-price")
-        elif sort == "price_asc":
-            return queryset.order_by("price")
-        elif sort == "popularity":
-            return queryset.order_by("bookmarks")
-        # TODO: check how to sort once bookmarks are implemented.
-        else:
-            return queryset.order_by("timestamp")
-
-class MyProductsListView(LoginRequiredMixin, ListView):
+class MyProductsListView(ListView):
     """Basic ListView implementation to call the published articles list."""
 
     model = product
@@ -131,7 +111,7 @@ class DraftsListView(MyProductsListView):
     def get_queryset(self, **kwargs):
         return product.objects.get_drafts()
 
-class CreateProductView(LoginRequiredMixin, CreateView):
+class CreateProductView(CreateView):
 
     model = product
     message = "Your product has been created."
@@ -156,7 +136,7 @@ class CreateProductView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         messages.success(self.request, self.message)
-        return reverse("produts:my_listings")
+        return reverse("produts:list")
 
 class EditProductView(LoginRequiredMixin, AuthorRequiredMixin, UpdateView):
     """Basic EditView implementation to edit existing articles."""
@@ -205,7 +185,7 @@ class DetailProductView(LoginRequiredMixin, DetailView):
 
     def get_queryset(self):
         queryset = super(DetailProductView, self).get_queryset()
-        return queryset.prefetch_related(Prefetch("images", queryset=image.objects.order_by("index"), to_attr="image"))
+        return queryset.prefetch_related(Prefetch("image", queryset=image.objects.order_by("index"), to_attr="image"))
         
 
 @login_required

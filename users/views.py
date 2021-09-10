@@ -1,7 +1,18 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
+from django.forms import forms
+from django.urls import reverse, reverse_lazy
 from django.db.models import Prefetch
-from django.views.generic import DetailView, ListView, RedirectView, UpdateView
+from django.views.generic import DetailView, ListView, RedirectView, UpdateView, FormView
+from django.views.generic.edit import CreateView, FormView
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.contrib import messages, auth
+from users.forms import Registrationform, UserLoginForm
+from bootstrap_modal_forms.generic import BSModalLoginView
+from django.http import JsonResponse
+
+
+
 
 from .models import User
 from product.models import product, image
@@ -54,7 +65,7 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     fields = [
         "email",
-        "name",
+        "username",
         "phone",
         "website",
         "picture",
@@ -70,7 +81,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     # send the user back to their own page after a successful update
     def get_success_url(self):
-        return reverse("users:detail", kwargs={"username": self.request.user.username})
+        return reverse("products:list")
 
     def get_object(self):
         # Only get the User record for the user making the request
@@ -81,3 +92,90 @@ class UserListView(LoginRequiredMixin, ListView):
     # These next two lines tell the view to index lookups by username
     slug_field = "username"
     slug_url_kwarg = "username"
+
+
+class registerUser(CreateView):
+    model = User
+    form_class = Registrationform
+    template_name = 'account/register.html'
+    success_url = '/edit-profile'
+    
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return HttpResponseRedirect(self.get_success_url())
+        return super().dispatch(self.request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+
+        form = self.form_class(data=request.POST)
+
+        if form.is_valid():
+            user = form.save(commit=False)
+            password = form.cleaned_data.get("password1")
+            user.set_password(password)
+            user.save()
+            return redirect('accounts:login')
+        else:
+            return render(request, 'accounts/employee/register.html', {'form': form})
+
+
+class LoginView(FormView):
+    """
+        Provides the ability to login as a user with an email and password
+    """
+    success_url = '/products'
+    authentication_form = UserLoginForm
+    success_message = 'Success: Book was created.'
+    success_url = reverse_lazy('products:list')
+
+    extra_context = {
+        'title': 'Login'
+    }
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return HttpResponseRedirect(self.get_success_url())
+        return super().dispatch(self.request, *args, **kwargs)
+
+    def get_success_url(self):
+        if 'next' in self.request.GET and self.request.GET['next'] != '':
+            return self.request.GET['next']
+        else:
+            return self.success_url
+
+    def get_form_class(self):
+        return self.form_class
+
+    def form_valid(self, form):
+        auth.login(self.request, form.get_user())
+        return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form):
+        """If the form is invalid, render the invalid form."""
+        errors = form.errors.as_json()
+        return JsonResponse({"errors": errors}, status=400)
+
+
+class LogoutView(RedirectView):
+    """
+    Provides users the ability to logout
+    """
+    url = '/'
+
+    def get(self, request, *args, **kwargs):
+        auth.logout(request)
+        messages.success(request, 'You are now logged out')
+        return super(LogoutView, self).get(request, *args, **kwargs)
+
+
+class LogoutView(RedirectView):
+    """
+    Provides users the ability to logout
+    """
+    url = '/login'
+
+    def get(self, request, *args, **kwargs):
+        auth.logout(request)
+        messages.success(request, 'You are now logged out')
+        return super(LogoutView, self).get(request, *args, **kwargs)

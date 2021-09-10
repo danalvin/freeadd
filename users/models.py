@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
+from django.urls import reverse
+from users.managers import UserManager
+
 
 
 # Create your models here.
@@ -9,7 +12,7 @@ from django.db.models.signals import pre_save
 
 class User(AbstractUser):
     # First Name and Last Name do not cover name patterns around the globe.
-    name = models.CharField(blank=True, max_length=255)
+    username = models.CharField(blank=True, max_length=90, unique=True)
     picture = models.ImageField(upload_to="profile_pics/", null=True, blank=True)
     phone = models.CharField(max_length=50, null=True, blank=True)
     website = models.CharField(max_length=100, null=True, blank=True)
@@ -24,18 +27,10 @@ class User(AbstractUser):
         return reverse("users:detail", kwargs={"username": self.username})
 
     def get_profile_name(self):
-        if self.name:
-            return self.name
+        if self.username:
+            return self.username
 
         return self.username
 
 
-@receiver(pre_save, sender=User)
-def update_username_from_email(sender, instance, **kwargs):
-    user_email = instance.email
-    username = user_email[:30]
-    n = 1
-    while User.objects.exclude(pk=instance.pk).filter(username=username).exists():
-        n += 1
-        username = user_email[:(29 - len(str(n)))] + '-' + str(n)
-    instance.username = username
+    objects = UserManager()

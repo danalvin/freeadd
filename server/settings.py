@@ -32,7 +32,7 @@ APPS_DIR = ROOT_DIR("templates")
 SECRET_KEY = 'django-insecure-83z-_p7gu(2ce*hjs^or1g2&tso_(s-epv2wlpdu_qi(vf!ua9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 ALLOWED_HOSTS = ['217.61.61.214','127.0.0.1', 'freeadverts.co.ke']
@@ -48,11 +48,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.facebook',
     'users',
     'product',
     'taggit',
@@ -60,9 +55,10 @@ INSTALLED_APPS = [
     'django.forms',
     'widget_tweaks',
     'crispy_forms',
+    'bootstrap_modal_forms',
 ]
 
-SITE_ID = 1
+SITE_ID = 3
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -72,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'users.middleware.LoginFormMiddleware'
 ]
 
 ROOT_URLCONF = 'server.urls'
@@ -87,6 +84,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'users.context_processors.add_my_login_form',
+                'users.context_processors.add_my_registration_form',
             ],
         },
     },
@@ -171,14 +170,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
 LOGIN_REDIRECT_URL = "dashboard"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
-LOGIN_URL = "account_login"
+# LOGIN_URL = ""
 
 ACCOUNT_LOGOUT_ON_GET = True
 
@@ -193,47 +191,47 @@ PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
     "django.contrib.auth.hashers.BCryptPasswordHasher",
 ]
-SITE_ID = 3
+# SITE_ID = 3
 LOGIN_REDIRECT_URL = '/products'
-SOCIALACCOUNT_QUERY_EMAIL = True
-ACCOUNT_LOGOUT_ON_GET= True
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION= 'none'
+# SOCIALACCOUNT_QUERY_EMAIL = True
+# ACCOUNT_LOGOUT_ON_GET= True
+# ACCOUNT_UNIQUE_EMAIL = True
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_EMAIL_VERIFICATION= 'none'
 
 
-SOCIALACCOUNT_PROVIDERS = {
-    'facebook':
-       {'METHOD': 'oauth2',
-        'SCOPE': ['email','public_profile', 'user_friends'],
-        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-        'FIELDS': [
-            'id',
-            'email',
-            'name',
-            'first_name',
-            'last_name',
-            'verified',
-            'locale',
-            'timezone',
-            'link',
-            'gender',
-            'updated_time'],
-        'EXCHANGE_TOKEN': True,
-        'LOCALE_FUNC': lambda request: 'kr_KR',
-        'VERIFIED_EMAIL': False,
-        'VERSION': 'v2.4'
-        },
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        }
-    }
-}
+# SOCIALACCOUNT_PROVIDERS = {
+#     'facebook':
+#        {'METHOD': 'oauth2',
+#         'SCOPE': ['email','public_profile', 'user_friends'],
+#         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+#         'FIELDS': [
+#             'id',
+#             'email',
+#             'name',
+#             'first_name',
+#             'last_name',
+#             'verified',
+#             'locale',
+#             'timezone',
+#             'link',
+#             'gender',
+#             'updated_time'],
+#         'EXCHANGE_TOKEN': True,
+#         'LOCALE_FUNC': lambda request: 'kr_KR',
+#         'VERIFIED_EMAIL': False,
+#         'VERSION': 'v2.4'
+#         },
+#     'google': {
+#         'SCOPE': [
+#             'profile',
+#             'email',
+#         ],
+#         'AUTH_PARAMS': {
+#             'access_type': 'online',
+#         }
+#     }
+# }
 
 
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'

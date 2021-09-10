@@ -8,6 +8,21 @@ from product.models import *
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('title', 'status', 'price')
 
-@admin.register(image)
-class ProductimageAdmin(admin.ModelAdmin):
-    list_display = ('product', 'image', 'index')
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug')
+
+@admin.register(Subcategory)
+class SubcategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'Category', 'slug')
+
+@admin.register(County)
+class CountyAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug')
+    
+@admin.register(area)
+class areaAdmin(admin.ModelAdmin):
+    list_display = ('name', 'County', 'slug')
+
+admin.site.register(image)

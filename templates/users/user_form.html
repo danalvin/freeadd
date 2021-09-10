@@ -39,7 +39,7 @@
                                         <div class="col-lg-4 col-md-6">
                                             <div class="form-group">
                                                 <label>Profile image</label>
-                                                <input id="profile-image" type="file" name="picture" class="upload">
+                                                
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6">
@@ -63,7 +63,7 @@
                                         <div class="col-lg-6 col-md-4">
                                         <div class="form-group">
                                                 <label>About</label>
-                                            <textarea class="form-control" rows="5"  name="bio" placeholder="About Me" style="margin-bottom:20px;">{{form.instance.bio |default_if_none:''}}></textarea>
+                                            <textarea class="form-control" rows="5"  name="bio" placeholder="About Me" style="margin-bottom:20px;", value="{{form.instance.bio |default_if_none:''}}"></textarea>
                                         </div>
                                         </div>
                                     </div>

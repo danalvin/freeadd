@@ -1,4 +1,5 @@
 {% load static %}
+{% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -11,6 +12,8 @@
     <link rel="stylesheet" href="{% static '/plugins/fontawesome/css/all.min.css'%}">
     <link rel="stylesheet" href="{% static '/css/owl.carousel.min.css'%}">
     <link rel="stylesheet" href="{% static '/css/style.css'%}">
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+    <script src="{% static 'js/jquery.js' %}"></script>
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     {% endblock css %}
         {% block head %}{% endblock head %}
@@ -21,6 +24,11 @@
   </head>
   <body>
       {% block body %}
+      <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
     <div class="main-wrapper">
             <ul id ="successMessage" class="messages">
             {% for message in messages %}
@@ -80,18 +88,19 @@
                       <a href="{% url 'products:dashboard' %}" class="dropdown-item"> My dashboard </a>
                       <a href="{% url  'users:update' %}" class="dropdown-item"> Edit profile </a>
                       <a href="shop-manager.html" class="dropdown-item d-lg-none"> Sell a product </a>
-                      <a href="{% url 'account_logout' %}" class="dropdown-item"> Logout </a>
+                      <a href="{% url 'users:logout' %}" class="dropdown-item"> Logout </a>
                     </div>
                   </li>
 
                 </ul>
                 {% else %}
-                <ul class="signup-col">
-                  <li>
-                    <a class="btn btn-signup" href="/accounts/login">
-                      <i class="far fa-user"></i> Sign in </a>
-                  </li>
-                </ul>
+                        <ul class="signup-col">
+                           <li>
+                              <a id='btn-signup' class="btn btn-signup" data-toggle="modal" href="#login">
+                              <i class="far fa-user"></i> Sign in
+                              </a>
+                           </li>
+                        </ul>
                 {% endif %}
               </nav>
             </div>
@@ -165,6 +174,76 @@
           </div>
         </div>
       </footer>
+      <div class="modal fade custom-modal" id="login">
+         <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+               <div class="modal-header pb-0">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                  </button>
+               </div>
+               <div class="modal-body pt-0">
+                  <div class="text-center pt-0 mb-4">
+                     <h2 class="modal-title">Log in</h2>
+                  </div>
+                  
+                  <form id='Login_Form' action="/login" method="POST">
+
+                    {% csrf_token %}
+                     <div class="modal-info">
+                        <div class="row form-row form-style-1">
+                            <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+                              {% for error in form.non_field_errors %}
+                              {{ error }}
+                              {% endfor %}
+                           </div>
+                           <div class="col-12 col-md-12">
+                              <div class="form-group">
+                                 <div class="search-form">
+                                    <div class="input-group search-box mb-3">
+                                       {{ login_form.email| add_class:"form-control" }}
+                                       <div class="input-group-append search-btn">
+                                          <button class="btn btn-outline-secondary" type="button" id="maila"><i class="fas fa-envelope"></i></button>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <div class="search-form">
+                                    <div class="input-group search-box mb-3">
+                                       {{ login_form.password| add_class:"form-control" }}
+                                       <div class="input-group-append search-btn">
+                                          <button class="btn btn-outline-secondary" type="button" id="pass"><i class="fas fa-lock"></i></button>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <div class="search-form">
+                                     <input type="hidden" name="next" value="{{ success_url }}">
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="submit-section text-center">
+                        <button type="submit" class="btn btn-primary btn-block submit-btn">Sign Up</button>
+                     </div>
+                     {% comment %} <div class="login-or">
+                        <span class="or-line"></span>
+                        <span class="span-or">or</span>
+                     </div>
+                     <a href="#" class="btn btn-outline-primary btn-block"><img src="assets/img/google.png" class="img-fluid mr-1" alt="google"> Continue with Google</a>
+                     <a href="#" class="btn btn-outline-primary btn-block"><i class="fab fb-icon fa-facebook-f mr-1"></i> Continue with Facebook</a>
+                     <a href="#" class="btn btn-outline-primary btn-block"><i class="fab fa-apple mr-1"></i> Continue with Apple</a>
+                     <p class="policy-text">By clicking Register or Continue with Google, Facebook, or Apple, you agree to NookX's <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>. NookX may send you communications; you may change your preferences in your account settings. We'll never post without your permission.</p> {% endcomment %}
+                     <div class="text-center member">Join a member? <a data-toggle="modal" href="#register" class="custom-modal-close">Sign Up</a></div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+
     </div>
     <script src="{% static '/js/jquery-3.5.1.min.js'%}"></script>
     <script src="{% static '/js/bootstrap.bundle.min.js'%}"></script>
@@ -172,11 +251,44 @@
     <script src="{% static '/js/owl.carousel.min.js'%}"></script>
     <script src="{% static '/js/script.js'%}"></script>
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script text="javascript">
         setTimeout(fade_out, 3000);
         function fade_out() {
             $(".messages").fadeOut().empty();
         }
+    </script>
+    <script type="text/javascript">
+      $(function () {
+        // Log in button
+        $("#btn-signup").modalForm({
+            formURL: "{% url 'users:login' %}"
+        });
+      });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // catch the form's submit event
+            $('#Login_Form').submit(function () {
+                // create an AJAX call
+                $.ajax({
+                    data: $(this).serialize(), // get the form data
+                    type: $(this).attr('method'), // GET or POST
+                    url: "{% url 'users:login' %}",
+                    // on success
+                    success: function (response) {
+                        alert("You have succesfully logged in");
+                    },
+                    // on error
+                    error: function (response) {
+                        // alert the error if any error occured
+                        alert(response.responseJSON.errors);
+                        console.log(response.responseJSON.errors)
+                    }
+                });
+                return false;
+            });
+        })
     </script>
     {% endblock body %}
   </body>

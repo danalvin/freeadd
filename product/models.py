@@ -4,6 +4,7 @@ from django.urls import reverse
 from slugify import slugify
 from django.conf import settings
 from taggit.managers import TaggableManager
+from autoslug import AutoSlugField
 
 # Create your models here.
 
@@ -13,26 +14,60 @@ class Status(Enum):
     OPEN = "OPEN"
     CLOSED = "CLOSED"
 
+# for me to call that kwa frontend, lazma zikuwe populated na vitu, wacha nikuhow exaple kwa site
+
+class Category(models.Model):
+    name=models.CharField( max_length=50)
+    slug = AutoSlugField(populate_from='name')
+    image = models.ImageField(upload_to='images/categries', verbose_name="category image", null=True)
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "categories"
+    
+    def __str__(self):
+        return self.name
+
+    def get_product_count(self):
+        """ Returns amount of posts of this category """
+        post_count = product.objects.filter(category = self).count()
+        return(post_count)
+
+    def get_absolute_url(self):
+        return reverse('product:product_list_by_category', args=[self.slug,])
 
 
-class Category(Enum):
-    VEHICLE = "VEHICLE"
-    PROPERTY = "PROPERTY"
-    MOBILE_PHONES_AND_TABLETS ="MOBILE PHONES AND TABLETS"
-    ELECTRONICS = "ELECTRONICS"
-    HOME_AND_FURNITURE_APPLIANCES = "HOME_AND_FURNITURE_APPLIANCES"
-    HEALTH_AND_BEAUTY = "HEALTH_AND_BEAUTY"
-    FASHION = "FASHION"
-    SPORTS_ARTS_AND_OUTDOOR = "SPORTS_ARTS_AND_OUTDOOR"
-    SEEKING_WORK = "SEEKING_WORK"
-    SERVICES = "SERVICES"
-    JOBS = "JOBS"
-    BABIES_AND_KIDS = "BABIES_AND_KIDS"
-    ANIMALS_AND_PETS = "ANIMALS_AND_PETS"
-    AGRICULTURE_AND_FOOD = "AGRICULTURE_AND_FOOD"
-    COMMERCIAL_EQUIPMENT_AND_TOOLS = "COMMERCIAL_EQUIPMENT_AND_TOOLS"
-    REPAIR_AND_CONSTRUCTION = "REPAIR_AND_CONSTRUCTION"
+class Subcategory(models.Model):
+    name=models.CharField( max_length=50)
+    Category=models.ForeignKey("Category", verbose_name="category", on_delete=models.CASCADE)
+    slug = AutoSlugField(populate_from='name')
+    class Meta:
+        verbose_name = "Sub Category"
+        verbose_name_plural = "Sub Categories"
+    def __str__(self):
+        return self.name
 
+
+
+class County(models.Model):
+    name=models.CharField(max_length=50)
+    slug = AutoSlugField(populate_from='name')
+    class Meta:
+        verbose_name = "County"
+        verbose_name_plural = "Counties"
+    def __str__(self):
+        return self.name
+
+
+
+class area(models.Model):
+    name=models.CharField(max_length=50)
+    slug = AutoSlugField(populate_from='name')
+    County=models.ForeignKey("County", verbose_name="County", on_delete=models.CASCADE)
+    class Meta:
+        verbose_name = "Area"
+        verbose_name_plural = "Area"
+    def __str__(self):
+        return self.name
 
 
 class product(models.Model):
@@ -40,17 +75,16 @@ class product(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,null=True,related_name="seller",on_delete=models.SET_NULL,)
     title = models.CharField(max_length=50)
     Description = models.TextField(blank=True, null=True)
-    category = models.CharField(choices=[(tag.name, tag.value) for tag in Category], max_length=30)
-    county = models.CharField(max_length=50)
-    location = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=80, null=True, blank=True)
+    category = models.ForeignKey("Category", verbose_name="Category", on_delete=models.CASCADE)
+    Subcategory=models.ForeignKey("Subcategory", on_delete=models.CASCADE)
+    county = models.ForeignKey("County", verbose_name="County", on_delete=models.CASCADE)
+    location=models.ForeignKey('area', on_delete=models.CASCADE)
+    slug = AutoSlugField(populate_from='title')
     price = models.DecimalField(max_digits=12, decimal_places=1)
     status = models.CharField(choices=[(tag.name, tag.value) for tag in Status], max_length=10, default=Status.OPEN)
     views= models.IntegerField(default=0)
-    tags = TaggableManager(blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-
-
+    images =models.ImageField(upload_to='images/', verbose_name="image")
     class Meta:
         verbose_name = "product"
         verbose_name_plural = "products"
@@ -58,7 +92,7 @@ class product(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(
-                f"{self.user.username}-{self.title}",lowecase=True,max_length=80
+                f"{self.user.username}-{self.title}",lowercase=True,max_length=80
             )
         super().save(*args, **kwargs)
 
@@ -70,7 +104,6 @@ class product(models.Model):
 
     
 class image(models.Model):
-    product = models.ForeignKey(product, null=True, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='images/', verbose_name="image",)
     index = models.IntegerField(null=True)
     

@@ -50,7 +50,7 @@
                   <div class="products-card flex-fill">
                     <div class="products-img">
                       <a href="{% url 'products:listing' product.slug %}">
-                        <img src="{{ product.image.0.image.url }}" alt="" class="img-fluid">
+                        <img src="{{ product.images.url }}" alt="" class="img-fluid">
                       </a>
                     </div>
                     <div class="products-body">
