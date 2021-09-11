@@ -33,7 +33,7 @@ class Category(models.Model):
         return(post_count)
 
     def get_absolute_url(self):
-        return reverse('product:product_list_by_category', args=[self.slug,])
+        return reverse('products:product_list_by_category', args=[self.slug,])
 
 
 class Subcategory(models.Model):
@@ -84,7 +84,7 @@ class product(models.Model):
     status = models.CharField(choices=[(tag.name, tag.value) for tag in Status], max_length=10, default=Status.OPEN)
     views= models.IntegerField(default=0)
     timestamp = models.DateTimeField(auto_now_add=True)
-    images =models.ImageField(upload_to='images/', verbose_name="image")
+    image = models.ImageField(upload_to='images/', verbose_name="image",)
     class Meta:
         verbose_name = "product"
         verbose_name_plural = "products"
@@ -106,11 +106,8 @@ class product(models.Model):
 class image(models.Model):
     image = models.ImageField(upload_to='images/', verbose_name="image",)
     index = models.IntegerField(null=True)
-    
 
-    class Meta:
-        verbose_name = "image"
-        verbose_name_plural = "images"
+
 
 
 class ProductQuerySet(models.query.QuerySet):

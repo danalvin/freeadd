@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
-
+{% load mytags %}
 
 {% block content %}
+{% show_categories %}
       <section class="section section-banner">
         <div class="container">
           <div class="row">
@@ -54,12 +55,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12">
-              <div class="question-sec">
-                <h2>Have a question? Well, we’ve got some answers.</h2>
-                <a href="#" class="view-all-link"> Go to Help Center</a>
-              </div>
-            </div>
+
           </div>
         </div>
       </section>

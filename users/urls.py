@@ -5,8 +5,8 @@ from . import views
 
 app_name = "users"
 urlpatterns = [
-    path('login', views.LoginView.as_view(), name='login'),    
-    re_path(r"^~update/$", view=views.UserUpdateView.as_view(), name="update"),
+    path('login', views.login, name='login'),    
+    path('register', views.register, name='register'),
     path('logout', views.LogoutView.as_view(), name='logout'),
 
 ]

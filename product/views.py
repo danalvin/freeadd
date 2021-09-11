@@ -13,7 +13,7 @@ from django.contrib import messages
 from django.urls import reverse
 from .helpers import AuthorRequiredMixin, ajax_required
 from django.views.decorators.http import require_http_methods
-from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse,Http404
 from .forms import Productform
 from django.db.models import Q
 from django.utils import timezone
@@ -120,23 +120,13 @@ class CreateProductView(CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        listing = form.save(commit=True)
-        images = form.cleaned_data['images']
-        image_ids = json.loads(images)
-        index = 0
 
-        for im_id in image_ids:
-            image = image.objects.get(id=im_id)
-            image.listing = listing
-            image.index = index
-            image.save()
-            index += 1
 
         return super().form_valid(form)
 
     def get_success_url(self):
         messages.success(self.request, self.message)
-        return reverse("produts:list")
+        return reverse("products:list")
 
 class EditProductView(LoginRequiredMixin, AuthorRequiredMixin, UpdateView):
     """Basic EditView implementation to edit existing articles."""
@@ -177,15 +167,15 @@ class DetailProductView(LoginRequiredMixin, DetailView):
     model = product
 
     def get_object(self):
-        obj = super().get_object()
+        obj = super(DetailProductView, self).get_object()
         obj.views+=1
         obj.save
+        if obj is None:
+            raise Http404("Product does not exist")
         return obj
 
 
-    def get_queryset(self):
-        queryset = super(DetailProductView, self).get_queryset()
-        return queryset.prefetch_related(Prefetch("image", queryset=image.objects.order_by("index"), to_attr="image"))
+
         
 
 @login_required

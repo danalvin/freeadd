@@ -94,67 +94,61 @@ class UserListView(LoginRequiredMixin, ListView):
     slug_url_kwarg = "username"
 
 
-class registerUser(CreateView):
-    model = User
-    form_class = Registrationform
-    template_name = 'account/register.html'
-    success_url = '/edit-profile'
-    
+def register(request):
+  if request.method == 'POST':
+    # Get form values
+    first_name = request.POST['first_name']
+    last_name = request.POST['last_name']
+    username = request.POST['username']
+    email = request.POST['email']
+    phone = request.POST['phone']
+    password = request.POST['password']
+    password2 = request.POST['password2']
 
-    def dispatch(self, request, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return HttpResponseRedirect(self.get_success_url())
-        return super().dispatch(self.request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-
-        form = self.form_class(data=request.POST)
-
-        if form.is_valid():
-            user = form.save(commit=False)
-            password = form.cleaned_data.get("password1")
-            user.set_password(password)
-            user.save()
-            return redirect('accounts:login')
+    # Check if passwords match
+    if password == password2:
+      # Check username
+      if User.objects.filter(username=username).exists():
+        messages.error(request, 'That username is taken')
+        return redirect('register')
+      else:
+        if User.objects.filter(email=email).exists():
+          messages.error(request, 'That email is being used')
+          return redirect('register')
         else:
-            return render(request, 'accounts/employee/register.html', {'form': form})
+          # Looks good
+          user = User.objects.create_user(username=username, password=password,email=email, first_name=first_name, last_name=last_name, phone=phone)
+          # Login after register
+          # auth.login(request, user)
+          # messages.success(request, 'You are now logged in')
+          # return redirect('index')
+          user.save()
+          messages.success(request, 'You are now registered and can log in')
+          return redirect('login')
+    else:
+      messages.error(request, 'Passwords do not match')
+      return redirect('register')
+  else:
+    return render(request, 'accounts/register.html')
 
 
-class LoginView(FormView):
-    """
-        Provides the ability to login as a user with an email and password
-    """
-    success_url = '/products'
-    authentication_form = UserLoginForm
-    success_message = 'Success: Book was created.'
-    success_url = reverse_lazy('products:list')
+def login(request):
+  if request.method == 'POST':
+    username = request.POST['username']
+    password = request.POST['password']
 
-    extra_context = {
-        'title': 'Login'
-    }
+    user = auth.authenticate(username=username, password=password)
 
-    def dispatch(self, request, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return HttpResponseRedirect(self.get_success_url())
-        return super().dispatch(self.request, *args, **kwargs)
+    if user is not None:
+      auth.login(request, user)
+      messages.success(request, 'You are now logged in')
+      return redirect('products:list')
+    else:
+      messages.error(request, 'Invalid credentials')
+      return redirect('users:login')
+  else:
+    return render(request, 'accounts/login.html')
 
-    def get_success_url(self):
-        if 'next' in self.request.GET and self.request.GET['next'] != '':
-            return self.request.GET['next']
-        else:
-            return self.success_url
-
-    def get_form_class(self):
-        return self.form_class
-
-    def form_valid(self, form):
-        auth.login(self.request, form.get_user())
-        return HttpResponseRedirect(self.get_success_url())
-
-    def form_invalid(self, form):
-        """If the form is invalid, render the invalid form."""
-        errors = form.errors.as_json()
-        return JsonResponse({"errors": errors}, status=400)
 
 
 class LogoutView(RedirectView):
@@ -169,13 +163,3 @@ class LogoutView(RedirectView):
         return super(LogoutView, self).get(request, *args, **kwargs)
 
 
-class LogoutView(RedirectView):
-    """
-    Provides users the ability to logout
-    """
-    url = '/login'
-
-    def get(self, request, *args, **kwargs):
-        auth.logout(request)
-        messages.success(request, 'You are now logged out')
-        return super(LogoutView, self).get(request, *args, **kwargs)

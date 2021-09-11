@@ -13,10 +13,8 @@ from users.managers import UserManager
 class User(AbstractUser):
     # First Name and Last Name do not cover name patterns around the globe.
     username = models.CharField(blank=True, max_length=90, unique=True)
-    picture = models.ImageField(upload_to="profile_pics/", null=True, blank=True)
     phone = models.CharField(max_length=50, null=True, blank=True)
     website = models.CharField(max_length=100, null=True, blank=True)
-
     about = models.CharField(max_length=1000, blank=True, null=True)
     rating = models.PositiveIntegerField(null=True)
 

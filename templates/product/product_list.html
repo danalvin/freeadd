@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load mytags %}
 {% block content %}
       <div class="container">
         <div class="row">
@@ -32,12 +32,9 @@
             <div class="col-lg-3">
               <div class="filters-section form-style-1">
                 <div class="filter-card">
-                  <h5 class="mb-3">products</h5>
+                  <h5 class="mb-3">All products</h5>
                   <ul class="category-list">
-                  {% for product in products %}
-                    <li>{{ product.category }}</li>
-                  {% endfor %}
-
+                  {% show_categories_side %}
                   </ul>
                 </div>
 
@@ -50,14 +47,16 @@
                   <div class="products-card flex-fill">
                     <div class="products-img">
                       <a href="{% url 'products:listing' product.slug %}">
-                        <img src="{{ product.image.0.image.url }}" alt="" class="img-fluid">
+                        <img src="{{ product.image.url }}" alt="" class="img-fluid">
                       </a>
                     </div>
                     <div class="products-body">
                       <h4 class="products-title text-truncate">
                         <a href="{% url 'products:listing' product.slug %}">{{ product.title }}</a>
                       </h4>
-                      <p class="product-info">{{ product.category }}</p>
+                      <p class="product-info">
+                      <a href="{{ product.category.get_absolute_url }}" class="product-catagory">{{ product.category }}</a>
+                      </p>
                       <ul class="ratings pb-2">
                         <li class="ratings-count">Number of views({{ product.views }}) </li>
                       </ul>

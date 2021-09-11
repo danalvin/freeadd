@@ -59,28 +59,14 @@
             </div>
             <div class="col-lg-7">
                 <div class="products-detail-slider">
-                <div class="card">
-                    <div class="card-body">
-                    <div class="js-flickity">
-                    {% for img in product.image %}
-                        <div class="item">
-                        <a data-toggle="modal" href="#product-popup">
-                            <img src="{{ img.image.url }}" alt="" class="img-fluid">
-                        </a>
-                        </div>
-                    {% endfor %}
+                <div class="faq-card">
+                  <div class="faq-card-body">
+                    <h4 class="faq-card-title mb-0">
+                        Product Image
+                    </h4>
+                    <a href="#"><img src="{{ product.image.url }}" alt="" style="width: 100%;"></a>
                     </div>
-                    </div>
-                    <div class="row">
-                    <div class="col-md-12 overflow-nav">
-                        <div class="owl-nav slide-nav-1 nav-control"></div>
-                    </div>
-                    <div class="col-md-12 prd-dtl">
-                        <span class="prod-wl prd-vis">
-                        <i class="far fa-heart"></i>
-                        </span>
-                    </div>
-                    </div>
+                  </div>
                 </div>
                 </div>
 

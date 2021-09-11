@@ -1,0 +1,29 @@
+      <section class="section section-selection">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 col-sm-6 col-6">
+              <div class="section-header">
+                <h2>Shop our Categories</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="selection-slider slider">
+            {% for category in categories %}
+            <div class="arrival-item">
+              <a href="{{ category.get_absolute_url }}">
+                <img src="{{ category.image.url }}" class="img-fluid" alt="Arrivals" />
+              </a>
+              <div class="arrival-content">
+                <h4>
+                  <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+                </h4>
+                <a href="{{ category.get_absolute_url }}">
+                  <i class="far fa-arrow-alt-circle-right"></i>
+                </a>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
