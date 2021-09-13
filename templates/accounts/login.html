@@ -9,10 +9,20 @@
             <div class="card-box card flex-fill">
             <div class="card-header">Log In</div>
             <div class="card-body">
+                     {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger alert-dismissable">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong>{{ field.name }} {{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endif %}
                <form action="{% url 'users:login' %}" method="POST">
                      {% csrf_token %}
                   <div class="form-group">
-                     <label for="username">Username</label>
+                     <label for="username">Phone Number</label>
                      <input type="text" name="username" class="form-control" required>
                   </div>
 

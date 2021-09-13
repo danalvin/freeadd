@@ -30,10 +30,6 @@
   </div>
 </div>
     <div class="main-wrapper">
-            <ul id ="successMessage" class="messages">
-            {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %} style="color:green; font-size: 20px; list-style-type: none;">{{ message }}</li>
-            {% endfor %}
         </ul>
       <header class="header">
         <div class="min-header">
@@ -67,14 +63,13 @@
                       <a href="{% url 'products:list' %}">Browse Products</a>
                     </li>
 
-
+                    <li>
+                      <a href="{% url 'products:create_new' %}">Create a product</a>
+                    </li>
                
 
                 {% comment %} authenticated logic {% endcomment %}
                 {% if request.user.is_authenticated %}
-                    <li>
-                      <a href="{% url 'products:create_new' %}">Create a product</a>
-                    </li>
                   </ul>
                 </div>
                 <ul class="signup-col">
@@ -85,7 +80,7 @@
                       </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                      <a href="{% url 'products:dashboard' %}" class="dropdown-item"> My dashboard </a>
+                      {% comment %} <a href="{% url 'products:my_listings' %}" class="dropdown-item"> My dashboard </a> {% endcomment %}
                       <a href="{% url 'users:logout' %}" class="dropdown-item"> Logout </a>
                     </div>
                   </li>

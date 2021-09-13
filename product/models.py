@@ -92,7 +92,7 @@ class product(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(
-                f"{self.user.username}-{self.title}",lowercase=True,max_length=80
+                "{self.title}",lowercase=True,max_length=80
             )
         super().save(*args, **kwargs)
 

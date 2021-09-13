@@ -99,9 +99,10 @@ def register(request):
     # Get form values
     first_name = request.POST['first_name']
     last_name = request.POST['last_name']
-    username = request.POST['username']
     email = request.POST['email']
     phone = request.POST['phone']
+    # Set The username to be the phone number
+    username = phone
     password = request.POST['password']
     password2 = request.POST['password2']
 
@@ -110,11 +111,11 @@ def register(request):
       # Check username
       if User.objects.filter(username=username).exists():
         messages.error(request, 'That username is taken')
-        return redirect('register')
+        return redirect('users:register')
       else:
         if User.objects.filter(email=email).exists():
           messages.error(request, 'That email is being used')
-          return redirect('register')
+          return redirect('users:register')
         else:
           # Looks good
           user = User.objects.create_user(username=username, password=password,email=email, first_name=first_name, last_name=last_name, phone=phone)
@@ -124,10 +125,10 @@ def register(request):
           # return redirect('index')
           user.save()
           messages.success(request, 'You are now registered and can log in')
-          return redirect('login')
+          return redirect('users:login')
     else:
       messages.error(request, 'Passwords do not match')
-      return redirect('register')
+      return redirect('users:register')
   else:
     return render(request, 'accounts/register.html')
 

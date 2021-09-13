@@ -32,7 +32,7 @@ APPS_DIR = ROOT_DIR("templates")
 SECRET_KEY = 'django-insecure-83z-_p7gu(2ce*hjs^or1g2&tso_(s-epv2wlpdu_qi(vf!ua9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 ALLOWED_HOSTS = ['217.61.61.214','127.0.0.1', 'freeadverts.co.ke']
@@ -174,9 +174,8 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = "dashboard"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
-# LOGIN_URL = ""
+LOGIN_URL = "users:login"
 
 ACCOUNT_LOGOUT_ON_GET = True
 

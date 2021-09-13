@@ -1,1 +1,83 @@
 {% extends 'base.html' %}
+{% load mytags %}
+{% block content %}
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="breadcrumb-bar">
+              <div class="page-breadcrumb-list">
+                <ul>
+                  <li class="breadcrumb-nav">
+                    <a href="index.html">All categories</a>
+                  </li>
+                  <li class="breadcrumb-nav sub-title">( {{ products.count }} products)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="container">
+          <div class="row mb-4">
+            <div class="col-lg-6">
+            {% if products.count < 1 %}
+              <div class="page-title">
+                <h2>We Have No Products</h2>
+              </div>
+            {% endif %}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-3">
+              <div class="filters-section form-style-1">
+                <div class="filter-card">
+                  <h5 class="mb-3">All products</h5>
+                  <ul class="category-list">
+                  {% show_categories_side %}
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+            <div class="col-lg-9">
+              <div class="row">
+                {% for product in products %}
+                <div class="col-lg-4 col-md-6 col-6 d-flex flex-wrap">
+                  <div class="products-card flex-fill">
+                    <div class="products-img">
+                      <a href="{% url 'products:listing' product.slug %}">
+                        <img src="{{ product.image.url }}" alt="" class="img-fluid">
+                      </a>
+                    </div>
+                    <div class="products-body">
+                      <h4 class="products-title text-truncate">
+                        <a href="{% url 'products:listing' product.slug %}">{{ product.title }}</a>
+                      </h4>
+                      <p class="product-info">
+                      <a href="{{ product.category.get_absolute_url }}" class="product-catagory">{{ product.category }}</a>
+                      </p>
+                      <ul class="ratings pb-2">
+                        <li class="ratings-count">Number of views({{ product.views }}) </li>
+                      </ul>
+                      <h5 class="products-price">KSH {{product.price}}</h5>
+                      <p class="products-price-offer">
+                        {{product.county}}
+                      </p>
+                      <a href="{% url 'products:listing' product.slug %}" class="prd-btn">More Details</a>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+
+                {% if page_obj.paginator.num_pages > 1 %}
+
+                        {% include '_pagination.html' with page_obj=page_obj %}
+
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock content %}

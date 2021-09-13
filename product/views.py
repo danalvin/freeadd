@@ -61,7 +61,7 @@ class MyProductsListView(ListView):
 
     model = product
     paginate_by = 20
-    context_object_name = "articles"
+    context_object_name = "products"
     template_name = "product/my-products.html"
 
     def get_context_data(self, *args, **kwargs):
@@ -70,7 +70,7 @@ class MyProductsListView(ListView):
         return context
 
     def get_queryset(self, **kwargs):
-        return product.objects.filter(user=self.request.user).prefetch_related(Prefetch("images", queryset=image.objects.order_by("index"), to_attr="image"))
+        return product.objects.filter(user=self.request.user)
 
 class MyActiveProductsListView(MyProductsListView):
 
@@ -111,7 +111,7 @@ class DraftsListView(MyProductsListView):
     def get_queryset(self, **kwargs):
         return product.objects.get_drafts()
 
-class CreateProductView(CreateView):
+class CreateProductView(LoginRequiredMixin,CreateView):
 
     model = product
     message = "Your product has been created."
@@ -128,7 +128,7 @@ class CreateProductView(CreateView):
         messages.success(self.request, self.message)
         return reverse("products:list")
 
-class EditProductView(LoginRequiredMixin, AuthorRequiredMixin, UpdateView):
+class EditProductView(AuthorRequiredMixin, UpdateView):
     """Basic EditView implementation to edit existing articles."""
 
     model = product
