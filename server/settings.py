@@ -86,6 +86,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'users.context_processors.add_my_login_form',
                 'users.context_processors.add_my_registration_form',
+                'django.template.context_processors.media',
             ],
         },
     },
