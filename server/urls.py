@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib import admin
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,3 +26,9 @@ urlpatterns = [
     path('', include('product.urls'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+admin.site.site_header = "Free adverts Administrative site"
+admin.site.site_title = "Freeadverts Admin Portal"
+admin.site.index_title = "Welcome to Free advert's Administrative Portal"
+
