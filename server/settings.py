@@ -29,6 +29,7 @@ ROOT_DIR = (
     environ.Path(__file__) - 3
 ) 
 APPS_DIR = ROOT_DIR("templates")
+ROOT_URLCONF = 'server.urls'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
