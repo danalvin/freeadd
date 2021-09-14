@@ -12,7 +12,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import environ
 import os
 from pathlib import Path
-import sys
+import sys 
+from django.contrib import admin
+
+admin.site.site_header = "Free adverts Administrative site"
+admin.site.site_title = "Freeadverts Admin Portal"
+admin.site.index_title = "Welcome to Free advert's Administrative Portal"
 
 sys.modules['django-bs4'] = __import__('django-bs4')
 
