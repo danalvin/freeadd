@@ -36,6 +36,7 @@ class Category(models.Model):
         return reverse('products:product_list_by_category', args=[self.slug,])
 
 
+
 class Subcategory(models.Model):
     name=models.CharField( max_length=50)
     Category=models.ForeignKey("Category", verbose_name="category", on_delete=models.CASCADE)
@@ -70,6 +71,30 @@ class area(models.Model):
         return self.name
 
 
+
+class BoostedItem(models.Model):
+    BoostChoices = (
+        ('None', ('None')),
+        ('Regular', ('Regular')),
+        ('Premium', ('Premium')),
+        ('Platinum', ('Platinum')),
+    )
+    product= models.ForeignKey("product", on_delete=models.CASCADE)
+    type=models.ForeignKey("BoostedType", verbose_name="type", on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.name
+
+
+class BoostedType(models.Model):
+    name=models.CharField( max_length=50)
+    price=models.PositiveIntegerField(blank=False)
+    duration = models.CharField(max_length=50, default=30)
+
+    def __str__(self):
+        return self.name
+
+
 class product(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,null=True,related_name="seller",on_delete=models.SET_NULL,)
@@ -79,28 +104,28 @@ class product(models.Model):
     Subcategory=models.ForeignKey("Subcategory", on_delete=models.CASCADE)
     county = models.ForeignKey("County", verbose_name="County", on_delete=models.CASCADE)
     location=models.ForeignKey('area', on_delete=models.CASCADE)
-    slug = AutoSlugField(populate_from='title')
+    slug = models.SlugField(unique=True, max_length=100, null=True)
     price = models.DecimalField(max_digits=12, decimal_places=1)
     status = models.CharField(choices=[(tag.name, tag.value) for tag in Status], max_length=10, default=Status.OPEN)
     views= models.IntegerField(default=0)
     timestamp = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='images/', verbose_name="image",)
+
     class Meta:
         verbose_name = "product"
         verbose_name_plural = "products"
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs): # new
         if not self.slug:
-            self.slug = slugify(
-                "{self.title}",lowercase=True,max_length=80
-            )
-        super().save(*args, **kwargs)
+            self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
+
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("product_detail", kwargs={"pk": self.pk})
+        return reverse("product_detail", kwargs={"slug": self.slug})
 
     
 class image(models.Model):

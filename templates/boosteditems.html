@@ -1,0 +1,30 @@
+         <section class="section section-collection">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-6 col-sm-8">
+                     <div class="section-header">
+                        <h2>Hot Items right now</h2>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="product-slider slider">
+                    {% for product in products %}
+                        <div class="prod-widget">
+                           <div class="prod-img">
+                              <a href="{% url 'products:listing' product.product.slug %}"><img src="{{ product.product.image.url }}" class="img-fluid prod-img-tag" alt="Arrivals" /></a>
+                              <label class="product-label label-green">{{ product.type }}</label>
+                           </div>
+                           <div class="prod-content">
+                              <h4 class="title"><a  href="{% url 'products:listing' product.product.slug %}">{{ product.product.title }}</a></h4>
+                              <h5 href="{{ product.product.category.get_absolute_url }}"  class="prod-brand">{{ product.product.category }}</h5>
+                              <h4 class="prod-price-fig">KES =/ {{product.product.price}}</h4>
+                           </div>
+                        </div>
+                    {% endfor %}
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </section>

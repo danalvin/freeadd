@@ -8,7 +8,6 @@ from product.models import *
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('title', 'status', 'price')
 
-
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')
@@ -26,3 +25,6 @@ class areaAdmin(admin.ModelAdmin):
     list_display = ('name', 'County', 'slug')
 
 admin.site.register(image)
+admin.site.register(BoostedItem)
+
+admin.site.register(BoostedType)

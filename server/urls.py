@@ -23,7 +23,8 @@ from django.contrib import admin
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('users.urls')),
-    path('', include('product.urls'))
+    path('', include('product.urls')),
+    path('mpesa/', include('mpesa_api.core.urls', 'mpesa')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+
+
+{% block content %}
+      <div class="page-content">
+        <div class="container">
+          <div class="row">
+{% block menu %}
+            <div class="col-md-3">
+              <div class="profile-menu">
+                <ul class="profile-links">
+                  <li>
+                    <a href="#" class="active">Boost Your Items</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+{% endblock menu %}
+            <div class="col-md-9">
+              <div class="tab-content">
+                <div class="tab-pane show active" id="account">
+                  <h4 class="mb-3">Boost Your Items</h4>
+                  <div class="row">
+                    <div class="col-md-12">
+
+                        <div id="pricing-table" class="clear">
+                            <div class="plan">
+                                <h3>Regular<span>Free</span></h3>
+                                <a class="btn btn-primary btn-block pass-btn">One month</a>        
+                                <ul>
+                                    <li><b>No</b> Boosted Items</li>			
+                                </ul> 
+                            </div>
+                            <div class="plan" id="most-popular">
+                                <h3>Premium<span>599</span></h3>
+                                <a class="btn btn-primary btn-block pass-btn">One month</a>        
+                                <ul>
+                                    <li><b>#1</b> Show in Special category</li>
+                                    <li><b>#2</b> Ads run twice a day</li>			
+                                </ul>    
+                            </div>
+                            <div class="plan">
+                                <h3>Platinum<span>1000</span></h3>
+                                <a class="btn btn-primary btn-block pass-btn">One month</a>        
+                                <ul>
+                                    <li><b>#1</b> Show in Special category, at the top</li>
+                                    <li><b>#2</b> Ads run Four times a day</li>				
+                                </ul>
+                            </div> 	
+                        </div>
+
+                        {% if form.errors %}
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <div class="alert alert-danger alert-dismissable">
+                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                        <strong>{{ field.name }} {{ error|escape }}</strong>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                        {% endif %}
+                        <form method="POST" action="{% url 'products:boost-item' %} ">
+                        {% csrf_token %}
+                        <div class="card-box card flex-fill">
+                            <div class="clearfix"></div>
+                                <div class="card-header">Product</div>
+                                    <div class="card-body">
+                                        <div class="form-row">
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Product Name</label>
+                                                    {{ form.product|add_class:"form-control" }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Boost Type</label>
+                                                    {{ form.type|add_class:"form-control" }}
+                                                </div>
+                                            </div>
+                                            {% if form.type.value == Regular %}
+                                                {{ form.price.value == 500  }}
+                                                {{ form.duration.value = 30 }}
+                                            {% elif form.type.value == Premium %}
+                                                {{ form.price.value == 1500  }}
+                                                {{ form.duration.value = 30 }}
+                                            {% elif form.type.value == Premium %}
+                                                {{ form.price.value == 3000  }}
+                                                {{ form.duration.value = 30 }}
+                                            {% endif %}
+                                            <div class="col-lg-4 col-md-6">
+                                                <button type="submit" value='Submit' class="btn btn-primary btn-block pass-btn">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+{% endblock content %}

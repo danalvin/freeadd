@@ -57,6 +57,11 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'crispy_forms',
     'bootstrap_modal_forms',
+    'mpesa_api.core',
+    'mpesa_api.util',
+    'rest_framework',
+    'django_filters',
+    'rangefilter',
 ]
 
 SITE_ID = 3

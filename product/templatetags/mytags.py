@@ -1,5 +1,5 @@
 from django import template
-from product.models import Category
+from product.models import BoostedItem, Category, product
 from django.db.models import Count
 
 register = template.Library()
@@ -20,20 +20,8 @@ def show_categories_side():
     categories = Category.objects.annotate(product_count=Count("product")).filter(product_count__gt=0).order_by('-product_count','name') 
     return{'categories': categories}
 
-@register.inclusion_tag('accounts/login.html')
-def login(request):
-  if request.method == 'POST':
-    username = request.POST['username']
-    password = request.POST['password']
 
-    user = auth.authenticate(username=username, password=password)
-
-    if user is not None:
-      auth.login(request, user)
-      messages.success(request, 'You are now logged in')
-      return redirect('dashboard')
-    else:
-      messages.error(request, 'Invalid credentials')
-      return redirect('login')
-  else:
-    return render(request, 'accounts/login.html')
+@register.inclusion_tag('boosteditems.html')
+def showboosted():
+  products=BoostedItem.objects.order_by('-timestamp')
+  return{'products':products}

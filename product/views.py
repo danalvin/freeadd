@@ -1,6 +1,6 @@
 from product.models import product
 from django.shortcuts import render, get_object_or_404
-from .models import product, image, Category
+from .models import BoostedItem, product, image, Category
 import operator
 import functools
 import logging
@@ -14,8 +14,9 @@ from django.urls import reverse
 from .helpers import AuthorRequiredMixin, ajax_required
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse,Http404
-from .forms import Productform
+from .forms import Productform, Boostedform
 from django.db.models import Q
+from mpesa_api.core.mpesa import Mpesa
 from django.utils import timezone
 
 
@@ -71,6 +72,37 @@ class MyProductsListView(ListView):
 
     def get_queryset(self, **kwargs):
         return product.objects.filter(user=self.request.user)
+
+class CreateBoostedItems(LoginRequiredMixin, CreateView):
+    model= BoostedItem
+    message = 'You have succesfully Boosted your product'
+    form_class= Boostedform
+    template_name='product/productBoost.html'
+
+
+
+    def get_queryset(self, **kwargs):
+        return product.objects.filter(user=self.request.user)
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+
+        phone = self.request.user.phone
+        price = form.instance.price
+        # Mpesa credantials required
+        # To-Do
+        # Mpesa.c2b_register_url()
+        return super().form_valid(form)
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_success_url(self):
+        messages.success(self.request, self.message)
+        return reverse("products:my_listings")
+
 
 class MyActiveProductsListView(MyProductsListView):
 
@@ -173,7 +205,6 @@ class DetailProductView(LoginRequiredMixin, DetailView):
         if obj is None:
             raise Http404("Product does not exist")
         return obj
-
 
 
         
