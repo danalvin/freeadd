@@ -13,7 +13,7 @@ class Registrationform(BSModalModelForm,UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'username', 'password1', 'password2', 'phone']
+        fields = ['first_name', 'email', 'username', 'password1', 'password2', 'phone']
         error_messages = {
             'first_name': {
                 'required': 'First name is required',

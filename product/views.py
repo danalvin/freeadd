@@ -193,7 +193,7 @@ class EditProductView(AuthorRequiredMixin, UpdateView):
         messages.success(self.request, self.message)
         return reverse("products:my_listings")
 
-class DetailProductView(LoginRequiredMixin, DetailView):
+class DetailProductView(DetailView):
     """Basic DetailView implementation to call an individual product."""
 
     model = product

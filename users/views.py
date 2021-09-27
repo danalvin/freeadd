@@ -98,7 +98,6 @@ def register(request):
   if request.method == 'POST':
     # Get form values
     first_name = request.POST['first_name']
-    last_name = request.POST['last_name']
     email = request.POST['email']
     phone = request.POST['phone']
     # Set The username to be the phone number
@@ -118,7 +117,7 @@ def register(request):
           return redirect('users:register')
         else:
           # Looks good
-          user = User.objects.create_user(username=username, password=password,email=email, first_name=first_name, last_name=last_name, phone=phone)
+          user = User.objects.create_user(username=username, password=password,email=email, first_name=first_name, phone=phone)
           # Login after register
           # auth.login(request, user)
           # messages.success(request, 'You are now logged in')
