@@ -83,16 +83,6 @@
                                                     {{ form.type|add_class:"form-control" }}
                                                 </div>
                                             </div>
-                                            {% if form.type.value == Regular %}
-                                                {{ form.price.value == 500  }}
-                                                {{ form.duration.value = 30 }}
-                                            {% elif form.type.value == Premium %}
-                                                {{ form.price.value == 1500  }}
-                                                {{ form.duration.value = 30 }}
-                                            {% elif form.type.value == Premium %}
-                                                {{ form.price.value == 3000  }}
-                                                {{ form.duration.value = 30 }}
-                                            {% endif %}
                                             <div class="col-lg-4 col-md-6">
                                                 <button type="submit" value='Submit' class="btn btn-primary btn-block pass-btn">Submit</button>
                                             </div>
