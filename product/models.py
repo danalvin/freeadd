@@ -82,8 +82,6 @@ class BoostedItem(models.Model):
     product= models.ForeignKey("product", on_delete=models.CASCADE)
     type=models.ForeignKey("BoostedType", verbose_name="type", on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
-    def __str__(self):
-        return self.product
 
 
 class BoostedType(models.Model):

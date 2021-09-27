@@ -33,7 +33,7 @@ ROOT_URLCONF = 'server.urls'
 SECRET_KEY = 'django-insecure-83z-_p7gu(2ce*hjs^or1g2&tso_(s-epv2wlpdu_qi(vf!ua9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 ALLOWED_HOSTS = ['217.61.61.214','127.0.0.1', 'freeadverts.co.ke']
