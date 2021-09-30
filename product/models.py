@@ -44,9 +44,38 @@ class Subcategory(models.Model):
     class Meta:
         verbose_name = "Sub Category"
         verbose_name_plural = "Sub Categories"
+
     def __str__(self):
         return self.name
 
+    def get_product_count(self):
+        """ Returns amount of posts of this category """
+        post_count = product.objects.filter(Subcategory = self).count()
+        return(post_count)
+
+    def get_absolute_url(self):
+        return reverse('products:product_list_by_category', args=[self.slug,])
+
+
+
+class Brand(models.Model):
+    name=models.CharField( max_length=50)
+    SubCategory=models.ForeignKey("Subcategory", verbose_name="brand", on_delete=models.CASCADE)
+    slug = AutoSlugField(populate_from='name')
+    class Meta:
+        verbose_name = "Brand"
+        verbose_name_plural = "Brands"
+
+    def __str__(self):
+        return self.name
+
+    def get_product_count(self):
+        """ Returns amount of posts of this category """
+        post_count = product.objects.filter(Brand = self).count()
+        return(post_count)
+
+    def get_absolute_url(self):
+        return reverse('products:product_list_by_category', args=[self.slug,])
 
 
 class County(models.Model):
