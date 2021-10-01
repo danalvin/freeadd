@@ -60,7 +60,7 @@ class Subcategory(models.Model):
 
 class Brand(models.Model):
     name=models.CharField( max_length=50)
-    SubCategory=models.ForeignKey("Subcategory", verbose_name="brand", on_delete=models.CASCADE)
+    SubCategory=models.ForeignKey("Subcategory", verbose_name="Sub category", on_delete=models.CASCADE)
     slug = AutoSlugField(populate_from='name')
     class Meta:
         verbose_name = "Brand"
