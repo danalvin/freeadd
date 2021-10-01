@@ -11,7 +11,7 @@ class Productform(forms.ModelForm):
     image = forms.ImageField()
     class Meta:
         model = product
-        fields = ["title", "Description", "category", "Subcategory", "county", "location","price", "image"]
+        fields = ["title", "Description", "category", "Subcategory", "Brand", "county", "location","price", "image", "image2", "image3"]
 
 
 class Boostedform(forms.ModelForm):

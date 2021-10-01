@@ -13,7 +13,7 @@
                     {% for product in products %}
                         <div class="prod-widget">
                            <div class="prod-img">
-                              <a href="{% url 'products:listing' product.product.slug %}"><img src="{{ product.product.image.url }}" class="img-fluid prod-img-tag" alt="Arrivals" /></a>
+                              <a href="{% url 'products:listing' product.product.slug %}"><img src="{{ product.product.image.url }}" class="prod-img-tag" style="width: 300px;height: 200px;" alt="Arrivals" /></a>
                               <label class="product-label label-green">{{ product.type }}</label>
                            </div>
                            <div class="prod-content">

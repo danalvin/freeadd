@@ -28,6 +28,8 @@ admin.site.register(image)
 admin.site.register(BoostedItem)
 
 admin.site.register(BoostedType)
+admin.site.register(Brand)
+
 
 from django.contrib.admin.models import LogEntry, DELETION
 from django.utils.html import escape
