@@ -129,7 +129,7 @@ class product(models.Model):
     Description = models.TextField(blank=True, null=True)
     category = models.ForeignKey("Category", verbose_name="Category", on_delete=models.CASCADE)
     Subcategory=models.ForeignKey("Subcategory", on_delete=models.CASCADE)
-    Brand=models.ForeignKey("Brand", on_delete=models.CASCADE)
+    Brand=models.ForeignKey("Brand", on_delete=models.CASCADE, null=True)
     county = models.ForeignKey("County", verbose_name="County", on_delete=models.CASCADE)
     location=models.ForeignKey('area', on_delete=models.CASCADE)
     slug = models.SlugField(unique=True, max_length=100, null=True)
