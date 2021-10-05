@@ -20,7 +20,9 @@ django-bs4==0.0.4
 django-crispy-forms==1.12.0
 django-environ==0.4.5
 django-filter==2.4.0
+django-js-asset==1.2.2
 django-markdownx==3.0.1
+django-mptt==0.13.4
 django-multiupload==0.5.2
 django-taggit==1.5.1
 django-widget-tweaks==1.4.8
