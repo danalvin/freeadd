@@ -1,6 +1,6 @@
 from product.models import product
 from django.shortcuts import render, get_object_or_404
-from .models import BoostedItem, product, image, Category
+from .models import BoostedItem, Jobapplication, Subcategory, product, image, Category
 import operator
 import functools
 import logging
@@ -14,7 +14,7 @@ from django.urls import reverse
 from .helpers import AuthorRequiredMixin, ajax_required
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse,Http404
-from .forms import Productform, Boostedform
+from .forms import Jobform, Productform, Boostedform
 from django.db.models import Q
 from mpesa_api.core.mpesa import Mpesa
 from django.utils import timezone
@@ -160,6 +160,25 @@ class CreateProductView(LoginRequiredMixin,CreateView):
         messages.success(self.request, self.message)
         return reverse("products:list")
 
+
+class Jobapplicationview(LoginRequiredMixin, CreateView):
+    model=Jobapplication
+    message = "You have successfully posted your CV"
+    form_class=Jobform
+    template_name='Jobs/Jobs.html'
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        messages.success(self.request, self.message)
+        return reverse("products:home")
+
+
+
+
 class EditProductView(AuthorRequiredMixin, UpdateView):
     """Basic EditView implementation to edit existing articles."""
 
@@ -303,3 +322,29 @@ def publish_product(request, id):
 
     else:
         return JsonResponse({"status": 403, "error": "Listing could not be found"})
+
+
+
+
+
+
+
+def load_subcategory(request):
+    category_id = request.GET.get('category')
+    subcategories = Subcategory.objects.filter(category_id=category_id).order_by('name')
+    return render(request, 'hr/subcategory_options.html', {'subcategories': subcategories})
+
+def load_brand(request):
+    subcategory_id= request.GET.get('Subcategory')
+    brands = Subcategory.objects.filter(Subcategory_id=subcategory_id).order_by('name')
+    return render(request, 'hr/subcategory_options.html', {'brands': brands})
+
+def load_models(request):
+    Brand_id = request.GET.get('Brand')
+    models = Subcategory.objects.filter(Brand_id=Brand_id).order_by('name')
+    return render(request, 'hr/subcategory_options.html', {'models': models})
+
+def load_location(request):
+    county_id = request.GET.get('county')
+    location = Subcategory.objects.filter(county_id=county_id).order_by('name')
+    return render(request, 'hr/subcategory_options.html', {'location': location})

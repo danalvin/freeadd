@@ -136,7 +136,7 @@ input[type=password] {
 }
 
 .form-control {
-	border-color: #77a6f6;
+	border-color: #53b44b;
 	color: #333;
 	font-size: 15px;
 	min-height: 46px;
@@ -969,8 +969,8 @@ button.bg-danger:hover {
 }
 
 .btn-primary {
-	background-color: #327eff;
-	border: 1px solid #327eff
+	background-color: #94d28e;
+	border: 1px solid #94d28e
 }
 
 .btn-primary:hover,
@@ -1648,7 +1648,7 @@ button.bg-danger:hover {
 }
 
 .header-container-top {
-	background: #d3e3fc
+	background: #b6f5b0
 }
 
 .min-header {
@@ -2507,8 +2507,8 @@ button.bg-danger:hover {
 }
 
 .circle-user {
-	background: #327eff;
-	border: 1px solid #327eff;
+	background: #53b44b;
+	border: 1px solid #53b44b;
 	border-radius: 50%;
 	width: 28px;
 	height: 28px;
@@ -2521,7 +2521,7 @@ button.bg-danger:hover {
 }
 
 .user-nav .nav-link {
-	background: #77a6f6;
+	background: #94d28e;
 	padding: 5px 10px;
 	border-radius: 30px
 }
@@ -2790,7 +2790,7 @@ html.menu-opened body {
 }
 
 .section-banner {
-	background-image: url(../img/banner.jpg);
+	/* background-image: url(../img/banner.jpg); */
 	background-repeat: no-repeat;
 	background-size: cover;
 	color: #fff;
@@ -2894,7 +2894,7 @@ html.menu-opened body {
 }
 
 .arrival-content i {
-	color: #327eff;
+	color: #53b44b;
 	font-size: 20px
 }
 
@@ -2985,7 +2985,7 @@ html.menu-opened body {
 
 .section-collection {
 	padding: 60px 0 100px;
-	background: #d3e3fc;
+	background: #94d28e;
 	border-radius: 0 70px 0 70px
 }
 
@@ -3246,7 +3246,7 @@ html.menu-opened body {
 
 .section-gig {
 	padding: 60px 0;
-	background: #d3e3fc url(../img/bg-01.png) no-repeat left bottom;
+	background: #94d28e url(../img/bg-01.png) no-repeat left bottom;
 	border-radius: 0 100px 0 0
 }
 
@@ -3268,7 +3268,7 @@ html.menu-opened body {
 }
 
 .bg-blue {
-	background: #77a6f6
+	background: #53b44b
 }
 
 .gig-item.bg-white h2,
@@ -3277,7 +3277,7 @@ html.menu-opened body {
 }
 
 .gig-item.bg-white {
-	border: 1px solid #327eff;
+	border: 1px solid #53b44b;
 	background: #fff;
 	margin-top: 60px
 }
@@ -3381,7 +3381,7 @@ html.menu-opened body {
 }
 
 .footer-bottom {
-	background: #327eff;
+	background: #53b44b;
 	padding: 30px 0
 }
 
@@ -3448,7 +3448,7 @@ html.menu-opened body {
 .profile-links li a.active,
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
-	background: #327eff;
+	background: #94d28e;
 	color: #fff;
 	border-radius: 0
 }
@@ -5081,7 +5081,7 @@ fieldset .shops {
 }
 
 .prd-btn {
-	background: #77a6f6;
+	background: #53b44b;
 	padding: 5px 25px;
 	color: #fff;
 	font-weight: 500;
@@ -6328,7 +6328,7 @@ fieldset .shops {
 		z-index: 1060;
 		transform: translateX(-260px);
 		transition: all .4s;
-		background-color: #327eff;
+		background-color: #53b44b;
 		margin: 0
 	}
 	.menu-header {

@@ -1,5 +1,6 @@
 from django.db import models
 from enum import Enum, IntEnum
+from django.db.models.deletion import CASCADE
 from django.urls import reverse
 from slugify import slugify
 from django.conf import settings
@@ -77,6 +78,26 @@ class Brand(models.Model):
     def get_absolute_url(self):
         return reverse('products:product_list_by_category', args=[self.slug,])
 
+class Model(models.Model):
+    name=models.CharField( max_length=50)
+    Brand=models.ForeignKey("Brand", verbose_name="Sub category", on_delete=models.CASCADE)
+    slug = AutoSlugField(populate_from='name')
+    class Meta:
+        verbose_name = "Model"
+        verbose_name_plural = "Model"
+
+    def __str__(self):
+        return self.name
+
+    def get_product_count(self):
+        """ Returns amount of posts of this category """
+        post_count = product.objects.filter(Model = self).count()
+        return(post_count)
+
+    def get_absolute_url(self):
+        return reverse('products:product_list_by_category', args=[self.slug,])
+
+
 
 class County(models.Model):
     name=models.CharField(max_length=50)
@@ -130,6 +151,7 @@ class product(models.Model):
     category = models.ForeignKey("Category", verbose_name="Category", on_delete=models.CASCADE)
     Subcategory=models.ForeignKey("Subcategory", on_delete=models.CASCADE)
     Brand=models.ForeignKey("Brand", on_delete=models.CASCADE, null=True)
+    Model=models.ForeignKey("Model", on_delete=models.CASCADE, null=True)
     county = models.ForeignKey("County", verbose_name="County", on_delete=models.CASCADE)
     location=models.ForeignKey('area', on_delete=models.CASCADE)
     slug = models.SlugField(unique=True, max_length=100, null=True)
@@ -158,6 +180,31 @@ class product(models.Model):
         return reverse("product_detail", kwargs={"slug": self.slug})
 
     
+class JobGroup(models.Model):
+    name=models.CharField(max_length=150)
+
+    class Meta:
+        verbose_name = "Job Group"
+        verbose_name_plural = "Job Groups"
+
+    def __str__(self):
+        return self.name
+
+
+class Jobapplication(models.Model):
+    name=models.CharField(max_length=150)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,null=True,related_name="Applicant",on_delete=models.SET_NULL,)
+    jobgroup=models.ForeignKey('JobGroup', on_delete=CASCADE)
+    CV=models.FileField(upload_to='cvs/', verbose_name= 'Curriculum vitae')
+
+    class Meta:
+        verbose_name='Job application'
+        verbose_name_plural= 'Job applications'
+
+    def __str__(self):
+        return self.name
+
+
 class image(models.Model):
     image = models.ImageField(upload_to='images/', verbose_name="image",)
     index = models.IntegerField(null=True)

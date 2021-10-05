@@ -66,7 +66,9 @@
                     <li>
                       <a href="{% url 'products:create_new' %}">Create a product</a>
                     </li>
-               
+                    <li>
+                      <a href="{% url 'products:Job' %}">Post Your CV</a>
+                    </li>
 
                 {% comment %} authenticated logic {% endcomment %}
                 {% if request.user.is_authenticated %}
