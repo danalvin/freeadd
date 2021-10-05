@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'rangefilter',
+    'mptt',
 ]
 
 SITE_ID = 3
