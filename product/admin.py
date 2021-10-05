@@ -29,6 +29,12 @@ admin.site.register(BoostedItem)
 
 admin.site.register(BoostedType)
 admin.site.register(Brand)
+admin.site.register(Model)
+admin.site.register(JobGroup)
+@admin.register(Jobapplication)
+class JobapplicationAdmin(admin.ModelAdmin):
+    list_filter=['user','jobgroup']
+    list_display=['user','jobgroup']
 
 
 from django.contrib.admin.models import LogEntry, DELETION
