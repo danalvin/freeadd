@@ -12,7 +12,7 @@ class Productform(forms.ModelForm):
     image = forms.ImageField()
     class Meta:
         model = product
-        fields = ["title", "Description", "category", "Subcategory", "Brand", "Model" "county", "location","price", "image", "image2", "image3"]
+        fields = ["title", "Description", "category", "Subcategory", "Brand", "Model", "county", "location","price", "image", "image2", "image3"]
     # def __init__(self, *args, **kwargs):
     #     super().__init__(*args, **kwargs)
     #     self.fields['Subcategory'].queryset = Subcategory.objects.none()
