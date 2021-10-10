@@ -4,12 +4,14 @@ from django.forms.fields import ImageField
 
 from markdownx.fields import MarkdownxFormField
 from multiupload.fields import MultiImageField
+from tinymce.widgets import TinyMCE
 
 from .models import BoostedItem, Brand, Jobapplication, Subcategory, area, product, image, Model
 
 
 class Productform(forms.ModelForm):
     image = forms.ImageField()
+    Description = forms.CharField(widget=TinyMCE())
     class Meta:
         model = product
         fields = ["title", "Description", "category", "Subcategory", "Brand", "Model", "county", "location","price", "image", "image2", "image3"]

@@ -2,6 +2,20 @@
 {% load widget_tweaks %}
 
 {% block content %}
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: "#Description",
+            height: "320px",
+            width: "960px",
+            menubar: "file edit view insert format tools table help",
+            plugins: "advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount spellchecker",
+            toolbar: "undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment code",
+            custom_undo_redo_levels: 10,
+            language: "es_ES",
+        });
+    </script>
       <div class="page-content">
         <div class="container">
           <div class="row">
@@ -46,16 +60,17 @@
                                                 {{ form.title|add_class:"form-control" }}
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form-group">
-                                                <label>Description</label>
-                                                {{ form.Description|add_class:"form-control" }}
-                                            </div>
-                                        </div>
+
                                         <div class="col-lg-4 col-md-6">
                                             <div class="form-group">
                                                 <label>category</label>
                                                 {{ form.category|add_class:"form-control" }}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-8 col-md-12">
+                                            <div class="form-group" id="Description">
+                                                {{ form.Description }}
                                             </div>
                                         </div>
 
@@ -66,19 +81,19 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-4 col-md-6">
+                                        <!-- <div class="col-lg-4 col-md-6">
                                             <div class="form-group">
                                                 <label>Brand/Make</label>
                                                 {{ form.Brand|add_class:"form-control" }}
                                             </div>
-                                        </div>
+                                        </div> -->
 
-                                        <div class="col-lg-4 col-md-6">
+                                        <!-- <div class="col-lg-4 col-md-6">
                                             <div class="form-group">
                                                 <label>Model Number/type</label>
                                                 {{ form.Model|add_class:"form-control" }}
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="col-lg-4 col-md-6">
                                             <div class="form-group">
                                                 <label>County</label>
@@ -97,7 +112,7 @@
                                                 {{ form.price|add_class:"form-control" }}
                                             </div>
                                         </div>
-                                         
+
                                         <div class="col-lg-4 col-md-6">
                                             <div class="form-group">
                                                 <label>Main Product Image</label>

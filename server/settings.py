@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import environ
 import os
 from pathlib import Path
-import sys 
+import sys
 
 sys.modules['django-bs4'] = __import__('django-bs4')
 
@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 ROOT_DIR = (
     environ.Path(__file__) - 3
-) 
+)
 APPS_DIR = ROOT_DIR("templates")
 ROOT_URLCONF = 'server.urls'
 
@@ -33,15 +33,16 @@ ROOT_URLCONF = 'server.urls'
 SECRET_KEY = 'django-insecure-83z-_p7gu(2ce*hjs^or1g2&tso_(s-epv2wlpdu_qi(vf!ua9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
-ALLOWED_HOSTS = ['217.61.61.214','127.0.0.1', 'freeadverts.co.ke']
+ALLOWED_HOSTS = ['217.61.61.214','127.0.0.1', 'freeadverts.co.ke', 'localhost']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'tinymce',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -245,3 +246,28 @@ FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 #facebook
 SOCIAL_AUTH_FACEBOOK_KEY = '2878699622381126'  # App ID
 SOCIAL_AUTH_FACEBOOK_SECRET ='bcce12e668d45926edc13603c6f68b57' #app key
+
+
+TINYMCE_JS_URL = 'https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js'
+TINYMCE_DEFAULT_CONFIG = {
+    "height": "320px",
+    "width": "960px",
+    "menubar": "file edit view insert format tools table help",
+    "plugins": "advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code "
+    "fullscreen insertdatetime media table paste code help wordcount spellchecker",
+    "toolbar": "undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft "
+    "aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor "
+    "backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | "
+    "fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | "
+    "a11ycheck ltr rtl | showcomments addcomment code",
+    "custom_undo_redo_levels": 10,
+    "language": "es_ES",  # To force a specific language instead of the Django current language.
+}
+# TINYMCE_SPELLCHECKER = True
+# TINYMCE_COMPRESSOR = True
+# TINYMCE_EXTRA_MEDIA = {
+#     'css': {
+#         'all': [ ],
+#     },
+#     'js': [ ],
+# }

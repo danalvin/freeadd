@@ -6,6 +6,7 @@ from slugify import slugify
 from django.conf import settings
 from taggit.managers import TaggableManager
 from autoslug import AutoSlugField
+from tinymce import models as tinymce_models
 
 # Create your models here.
 
@@ -24,7 +25,7 @@ class Category(models.Model):
     class Meta:
         verbose_name = "Category"
         verbose_name_plural = "categories"
-    
+
     def __str__(self):
         return self.name
 
@@ -147,7 +148,7 @@ class product(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,null=True,related_name="seller",on_delete=models.SET_NULL,)
     title = models.CharField(max_length=50)
-    Description = models.TextField(blank=True, null=True)
+    Description = tinymce_models.HTMLField()
     category = models.ForeignKey("Category", verbose_name="Category", on_delete=models.CASCADE)
     Subcategory=models.ForeignKey("Subcategory", on_delete=models.CASCADE)
     Brand=models.ForeignKey("Brand", on_delete=models.CASCADE, null=True)
@@ -179,7 +180,7 @@ class product(models.Model):
     def get_absolute_url(self):
         return reverse("product_detail", kwargs={"slug": self.slug})
 
-    
+
 class JobGroup(models.Model):
     name=models.CharField(max_length=150)
 

@@ -25,6 +25,7 @@ urlpatterns = [
     path('', include('users.urls')),
     path('', include('product.urls')),
     path('mpesa/', include('mpesa_api.core.urls', 'mpesa')),
+    path('tinymce', include('tinymce.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
