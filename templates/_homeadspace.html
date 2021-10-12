@@ -1,0 +1,17 @@
+{% load mytags %}
+<div class='col-md-3'>
+{% show_categories_side %}
+</div>
+                                {% for advert in adverts %}
+                                <div>
+                                    <img src="{{ advert.Image.url }}" class='img-fluid' alt="{{id}}">
+                                </div>
+                                {% endfor %}
+                            </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>              

@@ -1,5 +1,6 @@
+from django.db.models.fields import EmailField
 from product.models import product
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from .models import BoostedItem, Jobapplication, Subcategory, product, image, Category
 import operator
 import functools
@@ -14,11 +15,11 @@ from django.urls import reverse
 from .helpers import AuthorRequiredMixin, ajax_required
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse,Http404
-from .forms import Jobform, Productform, Boostedform
+from .forms import Jobform, Productform1, Productform2, Boostedform
 from django.db.models import Q
 from mpesa_api.core.mpesa import Mpesa
 from django.utils import timezone
-
+from sweetify.views import SweetifySuccessMixin
 
 # Create your views here.
 
@@ -143,22 +144,73 @@ class DraftsListView(MyProductsListView):
     def get_queryset(self, **kwargs):
         return product.objects.get_drafts()
 
-class CreateProductView(LoginRequiredMixin,CreateView):
+class CreateProductView(LoginRequiredMixin,CreateView,SweetifySuccessMixin):
 
     model = product
-    message = "Your product has been created."
-    form_class = Productform
+    message = "You have completged step !"
+    form_class = Productform1
     template_name = "product/product_create.html"
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(data = request.POST)
+        title = request.POST.get('title')
+        Description = request.POST.get('Description')
+        category = request.POST.get('category')
+        image = request.POST.get('image')
+        image2 = request.POST.get('image2')
+        image3 = request.POST.get('image3')
+        price = request.POST.get('price')
+        if form.is_valid():
+            Product= product.objects.filter(title=title, Description=Description).order_by('timestamp').reverse()[0]
+            request.session['product'] = Product.id
+            Product.save()
+            return redirect('products:createview2')
+
+        else:
+            return render(request, {form:form})
 
 
-        return super().form_valid(form)
+
+    def get_success_url(self):
+        messages.success(self.request, self.message)
+        return reverse("products:createview2")
+
+
+
+class CreateProductView2(LoginRequiredMixin,CreateView,SweetifySuccessMixin):
+
+    model=product
+    form_class= Productform2
+    template_name = 'product/product_create2.html'
+
+
+    def get_object(self, queryset=None):
+        return self.model.objects.get(id = self.request.session['product'])
+
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(data = request.POST)
+        if form.is_valid():
+            Product = self.model.objects.get(id = request.session['product'])
+            Product.Subcategory = request.POST.get('Subcategory')
+            Product.Brand= request.POST.get('Brand')
+            Product.Model= request.POST.get('Model')
+            Product.county= request.POST.get('county')
+            Product.location= request.POST.get('location')
+            Product.save()
+            return redirect('products:list')
+
+        else:
+            return render(request, {form:form})
+
+
 
     def get_success_url(self):
         messages.success(self.request, self.message)
         return reverse("products:list")
+
+
+
 
 
 class Jobapplicationview(LoginRequiredMixin, CreateView):
@@ -184,7 +236,7 @@ class EditProductView(AuthorRequiredMixin, UpdateView):
 
     model = product
     message = "Your product has been updated."
-    form_class = Productform
+    form_class = Productform1
     template_name = "product/product_edit.html"    
     
     def get_context_data(self, *args, **kwargs):

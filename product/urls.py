@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 from django.urls import re_path
 
 
-from .views import CreateBoostedItems, DetailProductView, DraftsListView, EditProductView, Jobapplicationview, MyActiveProductsListView, MyClosedProductsListView, MyDraftProductsListView, MyProductsListView, ProductListView, CreateProductView, close_product, delete_product, post_image, delete_image, publish_product, ProductList1
+from .views import CreateBoostedItems, CreateProductView2, DetailProductView, DraftsListView, EditProductView, Jobapplicationview, MyActiveProductsListView, MyClosedProductsListView, MyDraftProductsListView, MyProductsListView, ProductListView, CreateProductView, close_product, delete_product, post_image, delete_image, publish_product, ProductList1
 from .home import *
 app_name = "products"
 urlpatterns = [
@@ -14,6 +14,7 @@ urlpatterns = [
     re_path(r"^dashboard/$", dashboard_view, name="dashboard"),
     re_path(r"^$", ProductListView.as_view(), name="list"),
     re_path(r"^new-product/$", CreateProductView.as_view(), name="create_new"),
+    re_path(r"^new-product/$", CreateProductView2.as_view(), name="createview2"),
     re_path(r"^boost-item/$", CreateBoostedItems.as_view(), name="boost-item"),
     re_path(r"^job/$", Jobapplicationview.as_view(), name="Job"),
     re_path(r"^post-image/$", post_image, name="post_image"),

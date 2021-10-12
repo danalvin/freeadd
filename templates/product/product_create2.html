@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+      <div class="page-content">
+        <div class="container">
+          <div class="row">
+{% block menu %}
+            <div class="col-md-3">
+              <div class="profile-menu">
+                <ul class="profile-links">
+                  <li>
+                    <a href="#" class="active">Create product</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+{% endblock menu %}
+            <div class="col-md-9">
+              <div class="tab-content">
+                <div class="tab-pane show active" id="account">
+                  <h4 class="mb-3">Create Product 2</h4>
+                  <div class="row">
+                   {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger alert-dismissable">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong>{{ field.name }} {{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endif %}
+                    <div class="col-md-12">
+                        <form enctype="multipart/form-data" class="form-horizontal" method="POST" action="{% url 'products:create_new' %} ">
+                        {% csrf_token %}
+                            <div class="card-box card flex-fill">
+                            <div class="clearfix"></div>
+                                <div class="card-header">Product Create Page</div>
+                                <div class="card-body">
+                                    <div>
+                                        <div class="col-lg-12 col-md-12">
+                                        
+                                        {% for field in form %}
+                                                                {% if field.name == 'Subcategory' %}
+                                                                    <div class="form-group">
+                                                                        <label for="id_{{ field.name }}">Select Your Preferred Category</label>
+                                                                        <select id="job_type" class="selectpicker" name="job_type" data-live-search="true" data-live-search-style="begins" title="Select Your preffered Job Type">
+                                                                            <option value="" selected>----------------- </option>
+                                                                            {% for Subcategory in Subcategory %}
+                                                                            <option class="form-control" value="{{ Subcategory.id }}" selected>{{ Subcategory.Subcategory }}</option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </div>
+                                                                {% elif field.name == 'Brand' %}
+                                                                    <div class="form-group">
+                                                                        <label for="id_{{ field.name }}">Select Your Preferred Job Category</label>
+                                                                        <select id="job_category" class="selectpicker" name="job_category" data-live-search="true" data-live-search-style="begins" title="Select Your preffered Job Category">
+                                                                            <option value="" selected>----------------- </option>
+                                                                            {% for Brand in Brand %}
+                                                                            <option value="{{ Brand.id }}" selected>{{ Brand.Brand }}</option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </div>
+                                                                {% elif field.name == 'Model' %}
+                                                                    <div class="form-group">
+                                                                        <label for="id_{{ field.name }}">Select Your Preferred Job Category</label>
+                                                                        <select id="job_category" class="selectpicker" name="job_category" data-live-search="true" data-live-search-style="begins" title="Select Your preffered Job Category">
+                                                                            <option value="" selected>----------------- </option>
+                                                                            {% for Model in Model %}
+                                                                            <option value="{{ Model.id }}" selected>{{ Model.Model }}</option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </div>
+                                                                {% elif field.name == 'county' %}
+                                                                    <div class="form-group">
+                                                                        <label for="id_{{ field.name }}">Select Your Preferred Job Category</label>
+                                                                        <select id="job_category" class="selectpicker" name="job_category" data-live-search="true" data-live-search-style="begins" title="Select Your preffered Job Category">
+                                                                            <option value="" selected>----------------- </option>
+                                                                            {% for county in county %}
+                                                                            <option value="{{ county.id }}" selected>{{ county.county }}</option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </div>
+                                                                {% elif field.name == 'location' %}
+                                                                    <div class="form-group">
+                                                                        <label for="id_{{ field.name }}">Select Your Preferred Job Category</label>
+                                                                        <select id="job_category" class="selectpicker" name="job_category" data-live-search="true" data-live-search-style="begins" title="Select Your preffered Job Category">
+                                                                            <option value="" selected>----------------- </option>
+                                                                            {% for location in location %}
+                                                                            <option value="{{ location.id }}" selected>{{ location.location }}</option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </div>
+
+
+                                            {% else %}
+
+                                            <div class="form-group">
+                                                <label for="id_{{ field.name }}">{{ field.label }}
+                                                <input type="{{ field.field.widget.input_type }}"
+                                                    class="form-control"
+                                                    name="{{ field.name }}"
+                                                    id="id_{{ field.name }}"
+                                                    placeholder="{{ field.field.widget.attrs.placeholder }}">
+                                            </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <div class="text-center">
+                                            <button type="submit" value='Submit' class="btn btn-primary btn-block pass-btn">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+{% endblock content %}

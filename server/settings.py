@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import environ
 import os
 from pathlib import Path
+import sweetify
 import sys 
 
 sys.modules['django-bs4'] = __import__('django-bs4')
@@ -63,6 +64,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rangefilter',
     'mptt',
+    'sweetify',
 ]
 
 SITE_ID = 3
@@ -245,3 +247,18 @@ FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 #facebook
 SOCIAL_AUTH_FACEBOOK_KEY = '2878699622381126'  # App ID
 SOCIAL_AUTH_FACEBOOK_SECRET ='bcce12e668d45926edc13603c6f68b57' #app key
+
+SWEETIFY_SWEETALERT_LIBRARY = 'sweetalert2'
+sweetify.DEFAULT_OPTS = {
+    'showConfirmButton': False,
+    'timer': 2500,
+    'allowOutsideClick': True,
+    'confirmButtonText': 'OK',
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = str(os.getenv('EMAIL_USER'))
+EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_PASSWORD'))

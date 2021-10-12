@@ -10,6 +10,9 @@ from django.contrib import messages, auth
 from users.forms import Registrationform, UserLoginForm
 from bootstrap_modal_forms.generic import BSModalLoginView
 from django.http import JsonResponse
+import sweetify
+from sweetify.views import SweetifySuccessMixin
+from django.contrib.auth.views import PasswordResetView
 
 
 
@@ -109,11 +112,11 @@ def register(request):
     if password == password2:
       # Check username
       if User.objects.filter(username=username).exists():
-        messages.error(request, 'That username is taken')
+        sweetify.error(request, 'That username is taken')
         return redirect('users:register')
       else:
         if User.objects.filter(email=email).exists():
-          messages.error(request, 'That email is being used')
+          sweetify.error(request, 'That email is being used')
           return redirect('users:register')
         else:
           # Looks good
@@ -123,10 +126,10 @@ def register(request):
           # messages.success(request, 'You are now logged in')
           # return redirect('index')
           user.save()
-          messages.success(request, 'You are now registered and can log in')
+          sweetify.success(request, 'You are now registered and can log in')
           return redirect('users:login')
     else:
-      messages.error(request, 'Passwords do not match')
+      sweetify.error(request, 'Passwords do not match')
       return redirect('users:register')
   else:
     return render(request, 'accounts/register.html')
@@ -141,10 +144,10 @@ def login(request):
 
     if user is not None:
       auth.login(request, user)
-      messages.success(request, 'You are now logged in')
+      sweetify.success(request, 'You are now logged in')
       return redirect('products:list')
     else:
-      messages.error(request, 'Invalid credentials')
+      sweetify.error(request, 'Invalid credentials')
       return redirect('users:login')
   else:
     return render(request, 'accounts/login.html')
@@ -159,7 +162,16 @@ class LogoutView(RedirectView):
 
     def get(self, request, *args, **kwargs):
         auth.logout(request)
-        messages.success(request, 'You are now logged out')
+        sweetify.success(request, 'You are now logged out')
         return super(LogoutView, self).get(request, *args, **kwargs)
 
 
+class ResetPasswordView(SweetifySuccessMixin, PasswordResetView):
+    template_name = 'accounts/password_reset.html'
+    email_template_name = 'accounts/password_reset_email.html'
+    subject_template_name = 'accounts/password_reset_subject'
+    success_message = "We've emailed you instructions for setting your password, " \
+                      "if an account exists with the email you entered. You should receive them shortly." \
+                      " If you don't receive an email, " \
+                      "please make sure you've entered the address you registered with, and check your spam folder."
+    success_url = reverse_lazy('products:home')
