@@ -25,3 +25,7 @@ def show_categories_side():
 def showboosted():
   products=BoostedItem.objects.order_by('-timestamp')
   return{'products':products}
+
+@register.inclusion_tag('_homeadspace.html')
+def adspace():
+    pass
