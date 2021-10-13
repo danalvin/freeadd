@@ -35,7 +35,7 @@ class ProductListView(ListView):
     template_name = "product/products.html"
 
     def get_queryset(self):
-        return self.model.objects.all().order_by('timestamp')
+        return self.model.objects.all().order_by('-timestamp')
 
 
     def get_context_data(self, **kwargs):
@@ -52,7 +52,7 @@ class ProductList1(ListView):
     def get_queryset(self, **kwargs):
         self.category = get_object_or_404(Category, slug=self.kwargs['category_slug'])
         products=product.objects.filter(category=self.category.id)
-        return product.objects.filter(category=self.category)
+        return product.objects.filter(category=self.category).order_by('-timestamp')
 
     def get_context_data(self, **kwargs):
         context = super(ProductList1, self).get_context_data(**kwargs)
@@ -74,7 +74,7 @@ class MyProductsListView(ListView):
         return context
 
     def get_queryset(self, **kwargs):
-        return product.objects.filter(user=self.request.user)
+        return product.objects.filter(user=self.request.user).order_by('-timestamp')
 
 class CreateBoostedItems(LoginRequiredMixin, CreateView):
     model= BoostedItem
