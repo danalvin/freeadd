@@ -4,7 +4,9 @@ from django.dispatch import receiver
 from django.db.models.signals import pre_save
 from django.urls import reverse
 from users.managers import UserManager
-
+import uuid, base64
+from django.utils.translation import ugettext_lazy as _
+# from django.db.models.signals import post_save
 
 
 # Create your models here.
@@ -17,6 +19,7 @@ class User(AbstractUser):
     website = models.CharField(max_length=100, null=True, blank=True)
     about = models.CharField(max_length=1000, blank=True, null=True)
     rating = models.PositiveIntegerField(null=True)
+    referral_code = models.CharField(max_length=300, default='', blank=True, null=True)
 
     def __str__(self):
         return self.username
@@ -30,5 +33,23 @@ class User(AbstractUser):
 
         return self.username
 
+    def generate_verification_code(self):
+        return base64.urlsafe_b64encode(uuid.uuid1().bytes)[:25]
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.referral_code = self.generate_verification_code()
+        elif not self.referral_code:
+            self.referral_code = self.generate_verification_code()
+
+        return super(User, self).save(*args, **kwargs)
+    
     objects = UserManager()
+
+
+class UserReferral(models.Model):
+    referrer = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name="referrer")
+    referred = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name="referred")
+
+    class Meta:
+        unique_together = (('referrer', 'referred'))

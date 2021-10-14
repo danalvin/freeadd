@@ -5,7 +5,7 @@ from django.db.models import Prefetch
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView, FormView
 from django.views.generic.edit import CreateView, FormView
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages, auth
 from users.forms import Registrationform, UserLoginForm
 from bootstrap_modal_forms.generic import BSModalLoginView
@@ -17,7 +17,7 @@ from django.contrib.auth.views import PasswordResetView
 
 
 
-from .models import User
+from .models import User, UserReferral
 from product.models import product, image
 
 # Create your views here.
@@ -103,6 +103,7 @@ def register(request):
     first_name = request.POST['first_name']
     email = request.POST['email']
     phone = request.POST['phone']
+    referral_code = request.POST['referral_code']
     # Set The username to be the phone number
     username = phone
     password = request.POST['password']
@@ -125,7 +126,13 @@ def register(request):
           # auth.login(request, user)
           # messages.success(request, 'You are now logged in')
           # return redirect('index')
+
           user.save()
+          if User.objects.filter(referral_code=referral_code).exists():
+            print("exists")
+            refering = UserReferral(referrer=get_object_or_404(User, referral_code=referral_code), referred=user)
+            refering.save()
+
           sweetify.success(request, 'You are now registered and can log in')
           return redirect('users:login')
     else:
